@@ -105,7 +105,73 @@ public class UserDBCP {
 		 return list;
 	}
 	
-	// 매개변수  userid 의  친구 리스트 가져오기 
+	
+	//user 정보
+	public UserEntity getUserEntity(String userid) {
+		connect();
+		 UserEntity user = new UserEntity();
+		 
+		 String SQL = "select * from User_Info where USERID = "+userid;
+		 try {
+				pstmt = con.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery();
+
+				 
+				rs.next();		
+					
+				user.setUserid(rs.getString("userid"));
+				user.setUsername(rs.getString("username"));
+				user.setNickname(rs.getString("nickname"));
+				user.setPassword(rs.getString("password"));
+				user.setSex(rs.getString("sex"));
+				user.setEmail(rs.getString("email"));
+				user.setRegdate(rs.getTimestamp("regdate"));
+				user.setLastconn(rs.getTimestamp("lastConn"));
+				user.setManager(rs.getString("manager"));
+				user.setTemp(rs.getString("temp"));
+					
+			
+				rs.close();			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				disconnect();
+			}
+		 
+		 return user;
+	}
+	
+	//메인 페이지에서 친구 블럭 수를 결정하기위해 친구목록을 불러오는 메소드
+	public String[] getFrndList(String userid) {
+		connect();
+		String[] frndList = null;
+		int frndNum = 0;
+		String sql = "select FRIENDID from frined_list where USERID = "+userid;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				frndNum++;
+			}
+			rs.beforeFirst();
+			frndList = new String[frndNum];
+			for(int i=0; rs.next(); i++) {
+				frndList[i] = rs.getString("FRIENDID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return frndList;
+		} finally {
+			disconnect();
+		}
+		return frndList;
+	}
+	
+	
+	//친구목록 불러오기
 	public ArrayList<UserEntity> getUser_FriendList(String userid) {
 		connect();
 		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
