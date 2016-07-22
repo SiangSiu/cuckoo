@@ -12,16 +12,6 @@ import javax.sql.DataSource;
 
 
 public class UserDBCP {
-	/*private static final String JDBC_DRIVER_ORACLE = "oracle.jdbc.driver.OracleDriver";
-	private static final String JDBC_URL_ORACLE="jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER_ORACLE = "hr";
-	private static final String PASSWD_ORACLE = "1234";
-	
-	private static final String JDBC_DRIVER_MYSQL = "org.gjt.mm.mysql.Driver";
-	private static final String JDBC_URL_MYSQL="jdbc:mysql://localhost:3306/cuckoo?useUnicode=true&characterEncoding=utf-8";
-	private static final String USER_MYSQL = "root";
-	private static final String PASSWD_MYSQL = "apmsetup";*/
-	
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
 	private DataSource ds = null;
@@ -75,12 +65,10 @@ public class UserDBCP {
 				pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
 
-				//ResultSet의 결과에서 모든 행을 각각의 StudentEntity 객체에 저장  
 				while (rs.next()) {		
-					//한 행의 학생정보를 저장할 학생을 위한 빈즈 객체 생성  
+					
 					UserEntity user = new UserEntity();
 
-					//한 행의 학생정보를 자바 빈즈 객체에 저장  				
 					user.setUserid(rs.getString("userid"));
 					user.setUsername(rs.getString("username"));
 					user.setNickname(rs.getString("nickname"));
@@ -109,15 +97,16 @@ public class UserDBCP {
 	//user 정보
 	public UserEntity getUserEntity(String userid) {
 		connect();
+		
 		 UserEntity user = new UserEntity();
 		 
-		 String SQL = "select * from User_Info where USERID = "+userid;
+		 String SQL = "select * from User_Info where USERID ='"+userid+"'";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
 
 				 
-				rs.next();		
+				rs.next();
 					
 				user.setUserid(rs.getString("userid"));
 				user.setUsername(rs.getString("username"));
@@ -147,7 +136,7 @@ public class UserDBCP {
 		connect();
 		String[] frndList = null;
 		int frndNum = 0;
-		String sql = "select FRIENDID from frined_list where USERID = "+userid;
+		String sql = "select FRIENDID from friend_list where USERID = "+userid;
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -181,11 +170,9 @@ public class UserDBCP {
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
-//				ResultSet rs2 =null;
 
-				//ResultSet의 결과에서 모든 행을 각각의 StudentEntity 객체에 저장  
+
 				while (rs.next()) {		
-					//한 행의 학생정보를 저장할 학생을 위한 빈즈 객체 생성  
 					UserEntity user = new UserEntity();
 					String friendid=rs.getString("FRIENDID");
 					
@@ -193,11 +180,9 @@ public class UserDBCP {
 					pstmt = con.prepareStatement(SQL);
 					ResultSet rs2 = pstmt.executeQuery();
 					rs2.next();
-
-					//한 행의 학생정보를 자바 빈즈 객체에 저장  				
+				
 					user.setUserid(rs2.getString("userid"));
 					user.setUsername(rs2.getString("username"));
-					//ArrayList에 학생정보 StudentEntity 객체를 추가
 					list.add(user);
 					rs2.close();
 				}
@@ -282,5 +267,88 @@ public class UserDBCP {
 				disconnect();
 			}
 	}
+	
+	// 매니저로~
+	public void updateManager(String userid){
+		connect();
+		 
+		 String SQL = "update user_info set manager='Y'";
+		 SQL = SQL + " where userid=?";
+		 try {
+				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, userid);
+				pstmt.executeUpdate();
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				disconnect();
+			}
+	}
+	
+	// 매니저에서 강등... ㅠ
+		public void updateNoManager(String userid){
+			connect();
+			 
+			 String SQL = "update user_info set manager='N'";
+			 SQL = SQL + " where userid=?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					pstmt.executeUpdate();
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+		}
+	
+	// 회원 수정
+	public boolean updateDB(UserEntity user) {
+		boolean success = false; 
+		connect();		
+		String sql ="update user_info set nickname=?, password=?, email=? where userid=?";	
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user.getNickname());
+			pstmt.setString(2, user.getPassword());
+			pstmt.setString(3, user.getEmail());
+			pstmt.setString(4, user.getUserid());
+			int rowUdt = pstmt.executeUpdate();
+			if (rowUdt == 1) success = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return success;
+		}
+		finally {
+			disconnect();
+		}
+		return success;
+	}
+	
+	
+	// 회원 삭제
+	public boolean deleteDB(String userid) {
+		boolean success = false; 
+		connect();		
+		String sql ="delete from user_info where userid=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.executeUpdate();
+			success = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return success;
+		}
+		finally {
+			disconnect();
+		}
+		return success;
+	}
+
 	
 }
