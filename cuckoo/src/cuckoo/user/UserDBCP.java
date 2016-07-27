@@ -83,7 +83,6 @@ public class UserDBCP {
 
 
 					 	
-//						pstmt = con.prepareStatement(SQL1);
 						ResultSet rs = pstmt.executeQuery();
 
 						while (rs.next()) {		
@@ -96,6 +95,7 @@ public class UserDBCP {
 							user.setPassword(rs.getString("password"));
 							user.setSex(rs.getString("sex"));
 							user.setEmail(rs.getString("email"));
+							user.setBirthday(rs.getString("birthday"));
 							user.setRegdate(rs.getTimestamp("regdate"));
 							user.setLastconn(rs.getTimestamp("lastConn"));
 							user.setManager(rs.getString("manager"));
@@ -138,6 +138,7 @@ public class UserDBCP {
 						user.setPassword(rs.getString("password"));
 						user.setSex(rs.getString("sex"));
 						user.setEmail(rs.getString("email"));
+						user.setBirthday(rs.getString("birthday"));
 						user.setRegdate(rs.getTimestamp("regdate"));
 						user.setLastconn(rs.getTimestamp("lastConn"));
 						user.setManager(rs.getString("manager"));
@@ -317,14 +318,14 @@ public class UserDBCP {
 	}
 	
 	// 회원 로그인 했을 때 마지막 로그인 업데이트
-	public void updateLastConn(UserEntity user) {
+	public void updateLastConn(String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=sysdate";
+		 String SQL = "update user_info set lastconn=sysdate()";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.setString(1, user.getUserid());
+				pstmt.setString(1, userid);
 				pstmt.executeUpdate();
 					
 			} catch (SQLException e) {
@@ -372,6 +373,33 @@ public class UserDBCP {
 					disconnect();
 				}
 		}
+		// 매니저로~
+		public String getManager(String userid){
+			connect();
+			
+			String manager="";
+			 
+			 String SQL = "select manager from user_info";
+			 SQL = SQL + " where userid=?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					ResultSet rs = pstmt.executeQuery();
+					
+					rs.next();
+					manager = rs.getString("manager");
+					
+					rs.close();
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+			 return manager;
+			 
+		}
 	
 	// 회원 수정
 	public boolean updateDB(UserEntity user) {
@@ -416,6 +444,34 @@ public class UserDBCP {
 		}
 		return success;
 	}
-
 	
+	//id check
+		public boolean idpw_check(String userid, String password) {
+			connect();
+			
+			 UserEntity user = new UserEntity();
+			 boolean check=false;
+			 
+			 String SQL = "select userid from user_info where USERID =? and password =?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					pstmt.setString(2, password);
+					ResultSet rs = pstmt.executeQuery();
+	 
+					rs.next();
+						
+					user.setUserid(rs.getString("USERID"));
+						
+					check=true;
+					rs.close();			
+				} catch (SQLException e) {
+					check=false;
+				} 
+				finally {
+					disconnect();
+				}
+			 
+			 return check;
+		}
 }

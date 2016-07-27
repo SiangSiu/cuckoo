@@ -143,6 +143,7 @@ function check(){
        <td align=center><b><a href=user_admin.jsp?orderby=nickname&desc=<%=desc %>>별명</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=sex&desc=<%=desc %>>성별</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=email&desc=<%=desc %>>이메일</a></b></td>
+       <td align=center><b><a href=user_admin.jsp?orderby=birthday&desc=<%=desc %>>생년월일</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=regdate&desc=<%=desc %>>가입일</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=lastconn&desc=<%=desc %>>마지막로그인</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=manager&desc=<%=desc %>>매니저</a></b></td>
@@ -160,6 +161,7 @@ function check(){
        <td align=center><%= user.getNickname() %></td>
        <td align=center><%= user.getSex() %></td>
        <td align=center><%= user.getEmail() %></td>
+       <td align=center><%= user.getBirthday() %></td>
        <td align=center><%= user.getRegdate() %></td>
        <td align=center><%= user.getLastconn() %></td>
        <td align=center><%= user.getManager() %></td>
