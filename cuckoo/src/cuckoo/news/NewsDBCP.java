@@ -85,6 +85,39 @@ public class NewsDBCP {
       return list;
    }
    
+	public ArrayList<NewsEntity>getFriendNewsList(String frinedId) {
+		connect();
+		ArrayList<NewsEntity>list = new ArrayList<NewsEntity>();
+		
+		String sql = "select * from news where userid = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, frinedId);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NewsEntity nws = new NewsEntity();
+				nws.setNum(rs.getInt("num"));
+				nws.setUserid(rs.getString("userid"));
+				nws.setNickname(rs.getString("nickname"));
+				nws.setImgsrc(rs.getString("imgsrc"));
+				nws.setContent(rs.getString("content"));
+				nws.setRegtime(rs.getTimestamp("regtime"));
+				nws.setGood(rs.getInt("good"));
+				nws.setGoodtime(rs.getTimestamp("goodtime"));
+				nws.setBad(rs.getInt("bad"));
+				nws.setBadtime(rs.getTimestamp("badtime"));
+				//list에 추가
+				list.add(nws);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}
    //num으로 news 게시물 레코드를 반환하는 메소드
    public NewsEntity getNews(int num) {
       connect();

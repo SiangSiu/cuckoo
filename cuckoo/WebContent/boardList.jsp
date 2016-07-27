@@ -29,9 +29,7 @@
             height: 100px;
             position: relative;
             
-            background-image: url('http://www.templateof.com/postpic/2010/10/blue-wave-wallpaper-1920x1080_162778.jpg');
-            background-size: 100% 100px;
-            background-repeat: no-repeat;
+           
         }
         #main_header > #title {
             position: absolute;
@@ -58,15 +56,15 @@
     <style>
        #content {
        	width: 960px;	margin: 0 auto;	overflow: hidden;
-       	background-image: url('http://pichdwallpaper.com/wp-content/uploads/2015/01/White-And-Light-Blue-Background-Wallpaper-HD-Resolution.jpg');
-       	background-size: 100% 100%;
-       	background-repeat: no-repeat;
+       	background-color: black;
        }
        #content > #main_section {
-       	width: 750px; height:800px; 	float: left;
+       	width: 750px; height:800px; 	float: left;	overflow: auto;
        }
+       
+       
        #content > #main_aside {
-       	width: 200px; height: 100%;	float: right;
+       	width: 200px; height: 800px;	float: right;
        }
     </style>
     <!-- 본문 -->
@@ -158,6 +156,8 @@
     	border-radius: 0 3px 0 0;
     }
     input:nth-of-type(3) ~ section.buttons {border-radius: 0 3px 0 0;}
+    
+    .tab_item { overflow :hidden; }
     </style>
     <!-- 목록 -->
     <style>
@@ -167,7 +167,6 @@
         
         .thumbnail {float: left;}
         
-        #css .thumbnail {margin-left: 7px; margin-right:8px;}
         
         .description {float: left; margin-left: 10px;}
         .description > strong {
@@ -192,8 +191,10 @@
        address {color: rgb(200, 200, 200);}
        
     </style>
-</head>
+    
 
+    
+</head>
 
 
 <body>
@@ -201,8 +202,10 @@
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 
 
-<% String userid = "musha666";
-	 //userid = request.getParameter("userid");
+<% String userid =  request.getParameter("userid");
+	 userid = "musha666";
+	 String up = request.getParameter("up");
+	
 	
 	
 	//접속 user info 확보
@@ -224,9 +227,15 @@
     	
     	<!-- Main Section -->
     	<section id="main_section">
+    	<% if (up != null){ %>
+    		<input id="firstTab" type="radio" name="tab" />
+    		<input id="secondTab" type="radio" name="tab" checked="checked"/>
+    		<input id="thirdTab" type="radio" name="tab" />
+    		<% } else { %>
     		<input id="firstTab" type="radio" name="tab" checked="checked"/>
     		<input id="secondTab" type="radio" name="tab" />
     		<input id="thirdTab" type="radio" name="tab" />
+    		<%} %>
     		<section class="buttons">
     			<label for="firstTab">한 가지 소식</label>
     			<label for="secondTab">내 둥지</label>
@@ -237,8 +246,10 @@
     				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
     			</jsp:include>
     		</div>
-    		<div class="tab_item">
-    			
+    		<div  class="tab_item" >
+    			<jsp:include page="myBoard.jsp" flush="false">
+    				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
+    			</jsp:include>
     		</div>
     		<div class="tab_item">
     			

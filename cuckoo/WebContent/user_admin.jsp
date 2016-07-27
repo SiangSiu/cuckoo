@@ -52,6 +52,7 @@ function check(){
 
 </head>
 <body>
+<% request.setCharacterEncoding("utf-8"); %>
 
 <%@ page import="java.util.ArrayList, cuckoo.user.UserEntity" %>
 
@@ -106,7 +107,14 @@ function check(){
 	}
 	
 	
-	ArrayList<UserEntity> list = userdb.getUserEntityList(orderby,desc);
+	String field = request.getParameter("field");
+	String value = request.getParameter("value");
+	
+	
+	ArrayList<UserEntity> list = null;
+	if(userdb.getUserEntityList(orderby,desc,field,value)!=null){
+		list = userdb.getUserEntityList(orderby,desc,field,value);
+	}
 	int counter = list.size();
 	totalrows = list.size();
 	totalpages = (totalrows-1)/maxrows+1;
@@ -198,9 +206,19 @@ function check(){
 			%>
 			</td>
 			</tr>
+				
 	</table>
 	
 		
+	</form>
+	<form name=searchform action="user_admin.jsp" method=post>
+		<select name="field">
+			<option value="username">아름</option>
+			<option value="userid">아이디</option>
+		</select>
+		<input type="text" name="value">
+		<input type="submit" value="검색">
+	
 	</form>
 <% 	}
 %>
