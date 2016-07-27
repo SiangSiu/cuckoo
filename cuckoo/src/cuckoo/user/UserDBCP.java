@@ -60,7 +60,7 @@ public class UserDBCP {
 		connect();
 		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
 		 
-		 String SQL = "select * from User_Info";
+		 String SQL = "select * from User_Info order by lastconn desc";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
