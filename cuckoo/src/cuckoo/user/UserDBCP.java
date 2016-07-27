@@ -108,24 +108,25 @@ public class UserDBCP {
 		
 		 UserEntity user = new UserEntity();
 		 
-		 String SQL = "select * from User_Info where USERID ='"+userid+"'";
+		 String SQL = "select * from user_info where USERID = ?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, userid);
 				ResultSet rs = pstmt.executeQuery();
 
 				 
 				rs.next();
 					
-				user.setUserid(rs.getString("userid"));
-				user.setUsername(rs.getString("username"));
-				user.setNickname(rs.getString("nickname"));
-				user.setPassword(rs.getString("password"));
-				user.setSex(rs.getString("sex"));
-				user.setEmail(rs.getString("email"));
-				user.setRegdate(rs.getTimestamp("regdate"));
-				user.setLastconn(rs.getTimestamp("lastConn"));
-				user.setManager(rs.getString("manager"));
-				user.setTemp(rs.getString("temp"));
+				user.setUserid(rs.getString("USERID"));
+				user.setUsername(rs.getString("USERNAME"));
+				user.setNickname(rs.getString("NICKNAME"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setSex(rs.getString("SEX"));
+				user.setEmail(rs.getString("EMAIL"));
+				user.setRegdate(rs.getTimestamp("REGDATE"));
+				user.setLastconn(rs.getTimestamp("LASTCONN"));
+				user.setManager(rs.getString("MANAGER"));
+				user.setTemp(rs.getString("TEMP"));
 					
 			
 				rs.close();			
@@ -144,10 +145,11 @@ public class UserDBCP {
 		connect();
 		String[] frndList = null;
 		int frndNum = 0;
-		String sql = "select FRIENDID from friend_list where USERID = "+userid;
+		String sql = "select FRIENDID from friend_list where USERID = ?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userid);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
