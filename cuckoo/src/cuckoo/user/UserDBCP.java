@@ -56,44 +56,108 @@ public class UserDBCP {
 	}
 	
 	
-	// 전체 회원 정보를 가져오기.
-	public ArrayList<UserEntity> getUserEntityList() {
-		connect();
-		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
-		 
-		 String SQL = "select * from User_Info";
-		 try {
-				pstmt = con.prepareStatement(SQL);
-				ResultSet rs = pstmt.executeQuery();
+	// 전체 회원 정보를 가져오기.(매개변수 4개)
+			public ArrayList<UserEntity> getUserEntityList(String orderby, int desc, String field, String value) {
+				connect();
+				
+				String str = "";
+				
+				if(desc==1)
+					str="asc";
+				if(desc==0)
+					str="desc";
+				
+				 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
+				 
+				 String SQL1 = "select * from User_Info order by "+orderby+ " "+str;
+				 String SQL2 = "select * from User_Info where "+ field + " like ? order by "+orderby+ " "+str;
+				 try {
+					 if(value==null || value==""){
+						  //키워드(value)가 있나 없나 체크합니다. 없다면
+						  pstmt = con.prepareStatement(SQL1);
+						  }else{
+						  //키워드가 있다면
+						  pstmt = con.prepareStatement(SQL2);
+						  pstmt.setString(1, "%"+value+"%"); 
+						  }
 
-				while (rs.next()) {		
-					
-					UserEntity user = new UserEntity();
 
-					user.setUserid(rs.getString("userid"));
-					user.setUsername(rs.getString("username"));
-					user.setNickname(rs.getString("nickname"));
-					user.setPassword(rs.getString("password"));
-					user.setSex(rs.getString("sex"));
-					user.setEmail(rs.getString("email"));
-					user.setRegdate(rs.getTimestamp("regdate"));
-					user.setLastconn(rs.getTimestamp("lastConn"));
-					user.setManager(rs.getString("manager"));
-					user.setTemp(rs.getString("temp"));
-					
-					list.add(user);
-				}
-				rs.close();			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} 
-			finally {
-				disconnect();
+					 	
+//						pstmt = con.prepareStatement(SQL1);
+						ResultSet rs = pstmt.executeQuery();
+
+						while (rs.next()) {		
+							
+							UserEntity user = new UserEntity();
+
+							user.setUserid(rs.getString("userid"));
+							user.setUsername(rs.getString("username"));
+							user.setNickname(rs.getString("nickname"));
+							user.setPassword(rs.getString("password"));
+							user.setSex(rs.getString("sex"));
+							user.setEmail(rs.getString("email"));
+							user.setRegdate(rs.getTimestamp("regdate"));
+							user.setLastconn(rs.getTimestamp("lastConn"));
+							user.setManager(rs.getString("manager"));
+							user.setTemp(rs.getString("temp"));
+							
+							list.add(user);
+						}
+						rs.close();			
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} 
+					finally {
+						disconnect();
+					}
+				 
+				 return list;
 			}
-		 
-		 return list;
-	}
 	
+	
+	// 전체 회원 정보를 가져오기.   ( 매개변수 없는 것 )
+		public ArrayList<UserEntity> getUserEntityList() {
+			connect();
+			
+			String str = "";
+			
+			 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
+			 
+			 String SQL1 = "select * from User_Info";
+			 try {
+					pstmt = con.prepareStatement(SQL1);
+					ResultSet rs = pstmt.executeQuery();
+
+					while (rs.next()) {		
+						
+						UserEntity user = new UserEntity();
+
+						user.setUserid(rs.getString("userid"));
+						user.setUsername(rs.getString("username"));
+						user.setNickname(rs.getString("nickname"));
+						user.setPassword(rs.getString("password"));
+						user.setSex(rs.getString("sex"));
+						user.setEmail(rs.getString("email"));
+						user.setRegdate(rs.getTimestamp("regdate"));
+						user.setLastconn(rs.getTimestamp("lastConn"));
+						user.setManager(rs.getString("manager"));
+						user.setTemp(rs.getString("temp"));
+						
+						list.add(user);
+					}
+					rs.close();			
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+			 
+			 return list;
+		}
+		
+
+		
 	
 	//user 정보
 	public UserEntity getUserEntity(String userid) {
@@ -101,24 +165,25 @@ public class UserDBCP {
 		
 		 UserEntity user = new UserEntity();
 		 
-		 String SQL = "select * from User_Info where USERID ='"+userid+"'";
+		 String SQL = "select * from user_info where USERID = ?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, userid);
 				ResultSet rs = pstmt.executeQuery();
 
 				 
 				rs.next();
 					
-				user.setUserid(rs.getString("userid"));
-				user.setUsername(rs.getString("username"));
-				user.setNickname(rs.getString("nickname"));
-				user.setPassword(rs.getString("password"));
-				user.setSex(rs.getString("sex"));
-				user.setEmail(rs.getString("email"));
-				user.setRegdate(rs.getTimestamp("regdate"));
-				user.setLastconn(rs.getTimestamp("lastConn"));
-				user.setManager(rs.getString("manager"));
-				user.setTemp(rs.getString("temp"));
+				user.setUserid(rs.getString("USERID"));
+				user.setUsername(rs.getString("USERNAME"));
+				user.setNickname(rs.getString("NICKNAME"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setSex(rs.getString("SEX"));
+				user.setEmail(rs.getString("EMAIL"));
+				user.setRegdate(rs.getTimestamp("REGDATE"));
+				user.setLastconn(rs.getTimestamp("LASTCONN"));
+				user.setManager(rs.getString("MANAGER"));
+				user.setTemp(rs.getString("TEMP"));
 					
 			
 				rs.close();			
@@ -137,10 +202,11 @@ public class UserDBCP {
 		connect();
 		String[] frndList = null;
 		int frndNum = 0;
-		String sql = "select FRIENDID from friend_list where USERID = "+userid;
+		String sql = "select FRIENDID from friend_list where USERID = ?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userid);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
