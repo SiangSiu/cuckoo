@@ -1,55 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR" import="java.sql.*,java.io.*,java.text.*,java.net.*,java.util.*"%>
-
+<jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 <%
 	String userid = request.getParameter("id");
 	String password = request.getParameter("pw"); 
-	
-	Connection conn = null;
-	Statement st = null;
-	ResultSet rs = null;
-	String query = new String();
-	String name = new String();
-	String email = new String();
-	PreparedStatement pstmt = null;
-	
-	try{
-		Class.forName("org.gjt.mm.mysql.Driver");
-	}catch(ClassNotFoundException e){
-		e.printStackTrace();
-	}
-	
-	try{
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_info?useUnicode=true&characterEncoding=euckr","root","1234");
-		st = conn.createStatement();
-	}catch(SQLException e){
-		e.printStackTrace();
-	}
+	String manager = userdb.getManager(userid);
+			
 	
 	boolean bLogin = false;
 	
-	try{
-		query = "select * from user_info where userid = '" + userid + "'";
-		query = query + " and password = '" + password + "'";
-		rs = st.executeQuery(query);
-		
-		if(rs.next()){
-			name = rs.getString("username");
-			email = rs.getString("email");
-			bLogin = true;
-		}else{
-			bLogin = false;			
-		}
-		rs.close();
-	}catch(SQLException e){
-		e.printStackTrace();
-	}finally{
-		conn.close();
-	}
+	bLogin = userdb.idpw_check(userid, password);
+	userdb.updateLastConn(userid);
 	
 	if(bLogin){
 		session.setAttribute("user_info_userid", userid);
 		session.setAttribute("user_info_password", password);
+		session.setAttribute("user_info_manager", manager);
 		response.sendRedirect("login_success.jsp");
 	}else{
 		out.println("<script>alert('아이디와 비밀번호를 확인하세요'); history.back();</script>");

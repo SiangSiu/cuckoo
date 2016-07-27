@@ -9,7 +9,14 @@
 <body>
 	<jsp:useBean id="user" class="cuckoo.user.UserEntity" scope="page" />
 	<%
-		out.println("로그인은 어찌어찌 하였건만...오늘은 여기까지..더 진도가 안나가네..");
+		out.println("로그인은 어찌어찌 하였건만...오늘은 여기까지..더 진도가 안나가네..<br>");
+		String userid = (String)session.getAttribute("user_info_userid");
+		String password = (String)session.getAttribute("user_info_password");
+		String manager = (String)session.getAttribute("user_info_manager");
+		
+		out.println("userid = " + userid+"<br>");
+		out.println("password = " + password+"<br>");
+		out.println("manager = " + manager+"<br>");
 		/* String id = request.getParameter("id");
 
 		Connection conn = null;
