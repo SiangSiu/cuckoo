@@ -56,19 +56,11 @@ public class UserDBCP {
 	
 	
 	// 전체 회원 정보를 가져오기.
-	public ArrayList<UserEntity> getUserEntityList(String orderby, int desc) {
+	public ArrayList<UserEntity> getUserEntityList() {
 		connect();
-		
-		String str = "";
-		
-		if(desc==1)
-			str="asc";
-		if(desc==0)
-			str="desc";
-		
 		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
 		 
-		 String SQL = "select * from User_Info order by "+orderby+ " "+str;
+		 String SQL = "select * from User_Info";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
