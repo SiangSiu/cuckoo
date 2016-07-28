@@ -1,6 +1,7 @@
 package cuckoo.user;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +20,8 @@ public class UserDBCP {
 	public UserDBCP(){
 		try {
 			InitialContext ctx = new InitialContext();
-//			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mysql");  // mysql
-			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/myoracle");	//oracle
+			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mysql");  // mysql
+//			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/myoracle");	//oracle
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -55,52 +56,109 @@ public class UserDBCP {
 	}
 	
 	
-	// 전체 회원 정보를 가져오기.
-	public ArrayList<UserEntity> getUserEntityList(String orderby, int desc) {
-		connect();
-		
-		String str = "";
-		
-		if(desc==1)
-			str="asc";
-		if(desc==0)
-			str="desc";
-		
-		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
-		 
-		 String SQL = "select * from User_Info order by "+orderby+ " "+str;
-		 try {
-				pstmt = con.prepareStatement(SQL);
-				ResultSet rs = pstmt.executeQuery();
+	// 전체 회원 정보를 가져오기.(매개변수 4개)
+			public ArrayList<UserEntity> getUserEntityList(String orderby, int desc, String field, String value) {
+				connect();
+				
+				String str = "";
+				
+				if(desc==1)
+					str="asc";
+				if(desc==0)
+					str="desc";
+				
+				 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
+				 
+				 String SQL1 = "select * from User_Info order by "+orderby+ " "+str;
+				 String SQL2 = "select * from User_Info where "+ field + " like ? order by "+orderby+ " "+str;
+				 try {
+					 if(value==null || value==""){
+						  //키워드(value)가 있나 없나 체크합니다. 없다면
+						  pstmt = con.prepareStatement(SQL1);
+						  }else{
+						  //키워드가 있다면
+						  pstmt = con.prepareStatement(SQL2);
+						  pstmt.setString(1, "%"+value+"%"); 
+						  }
 
-				while (rs.next()) {		
-					
-					UserEntity user = new UserEntity();
 
-					user.setUserid(rs.getString("userid"));
-					user.setUsername(rs.getString("username"));
-					user.setNickname(rs.getString("nickname"));
-					user.setPassword(rs.getString("password"));
-					user.setSex(rs.getString("sex"));
-					user.setEmail(rs.getString("email"));
-					user.setRegdate(rs.getTimestamp("regdate"));
-					user.setLastconn(rs.getTimestamp("lastConn"));
-					user.setManager(rs.getString("manager"));
-					user.setTemp(rs.getString("temp"));
-					
-					list.add(user);
-				}
-				rs.close();			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} 
-			finally {
-				disconnect();
+					 	
+						ResultSet rs = pstmt.executeQuery();
+
+						while (rs.next()) {		
+							
+							UserEntity user = new UserEntity();
+
+							user.setUserid(rs.getString("userid"));
+							user.setUsername(rs.getString("username"));
+							user.setNickname(rs.getString("nickname"));
+							user.setPassword(rs.getString("password"));
+							user.setSex(rs.getString("sex"));
+							user.setEmail(rs.getString("email"));
+							user.setBirthday(rs.getString("birthday"));
+							user.setRegdate(rs.getTimestamp("regdate"));
+							user.setLastconn(rs.getTimestamp("lastConn"));
+							user.setManager(rs.getString("manager"));
+							user.setTemp(rs.getString("temp"));
+							
+							list.add(user);
+						}
+						rs.close();			
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} 
+					finally {
+						disconnect();
+					}
+				 
+				 return list;
 			}
-		 
-		 return list;
-	}
 	
+	
+	// 전체 회원 정보를 가져오기.   ( 매개변수 없는 것 )
+		public ArrayList<UserEntity> getUserEntityList() {
+			connect();
+			
+			String str = "";
+			
+			 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
+			 
+			 String SQL1 = "select * from User_Info";
+			 try {
+					pstmt = con.prepareStatement(SQL1);
+					ResultSet rs = pstmt.executeQuery();
+
+					while (rs.next()) {		
+						
+						UserEntity user = new UserEntity();
+
+						user.setUserid(rs.getString("userid"));
+						user.setUsername(rs.getString("username"));
+						user.setNickname(rs.getString("nickname"));
+						user.setPassword(rs.getString("password"));
+						user.setSex(rs.getString("sex"));
+						user.setEmail(rs.getString("email"));
+						user.setBirthday(rs.getString("birthday"));
+						user.setRegdate(rs.getTimestamp("regdate"));
+						user.setLastconn(rs.getTimestamp("lastConn"));
+						user.setManager(rs.getString("manager"));
+						user.setTemp(rs.getString("temp"));
+						
+						list.add(user);
+					}
+					rs.close();			
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+			 
+			 return list;
+		}
+		
+
+		
 	
 	//user 정보
 	public UserEntity getUserEntity(String userid) {
@@ -238,8 +296,8 @@ public class UserDBCP {
 	public void setUserEntityList(UserEntity user) {
 		connect();
 		 
-		 String SQL = "insert into table User_Info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, REGDATE, LASTCONN, MANAGER, TEMP) ";
-		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, sysdate, sysdate, ?, 0)";
+		 String SQL = "insert into User_Info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, BIRTHDAY, REGDATE, LASTCONN, MANAGER, TEMP) ";
+		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), 'N', 0)";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				pstmt.setString(1, user.getUserid());
@@ -248,7 +306,7 @@ public class UserDBCP {
 				pstmt.setString(4, user.getPassword());
 				pstmt.setString(5, user.getSex());
 				pstmt.setString(6, user.getEmail());
-				pstmt.setString(7, user.getManager());
+				pstmt.setString(7, user.getBirthday());				
 				pstmt.executeUpdate();
 					
 			} catch (SQLException e) {
@@ -260,14 +318,14 @@ public class UserDBCP {
 	}
 	
 	// 회원 로그인 했을 때 마지막 로그인 업데이트
-	public void updateLastConn(UserEntity user) {
+	public void updateLastConn(String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=sysdate";
+		 String SQL = "update user_info set lastconn=now()";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.setString(1, user.getUserid());
+				pstmt.setString(1, userid);
 				pstmt.executeUpdate();
 					
 			} catch (SQLException e) {
@@ -315,6 +373,33 @@ public class UserDBCP {
 					disconnect();
 				}
 		}
+		// 매니저로~
+		public String getManager(String userid){
+			connect();
+			
+			String manager="";
+			 
+			 String SQL = "select manager from user_info";
+			 SQL = SQL + " where userid=?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					ResultSet rs = pstmt.executeQuery();
+					
+					rs.next();
+					manager = rs.getString("manager");
+					
+					rs.close();
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+			 return manager;
+			 
+		}
 	
 	// 회원 수정
 	public boolean updateDB(UserEntity user) {
@@ -359,6 +444,34 @@ public class UserDBCP {
 		}
 		return success;
 	}
-
 	
+	//id check
+		public boolean idpw_check(String userid, String password) {
+			connect();
+			
+			 UserEntity user = new UserEntity();
+			 boolean check=false;
+			 
+			 String SQL = "select userid from user_info where USERID =? and password =?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					pstmt.setString(2, password);
+					ResultSet rs = pstmt.executeQuery();
+	 
+					rs.next();
+						
+					user.setUserid(rs.getString("USERID"));
+						
+					check=true;
+					rs.close();			
+				} catch (SQLException e) {
+					check=false;
+				} 
+				finally {
+					disconnect();
+				}
+			 
+			 return check;
+		}
 }

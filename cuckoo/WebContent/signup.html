@@ -34,15 +34,19 @@
 			</nav>
 
 			<div>
-				<form method="post" action="login.jsp">
+				<form method="post" action="insert.jsp">
 					<span>아이디</span> <input type="text" name="userid" size="30" required><br>
 					비밀번호<input type="password" name="password" required><br>
+					비밀번호<input type="password" name="password_1" required><br>
 					이름<input type="text" name="username" required><br>
 					닉네임<input type="text" name="nickname" required><br>
+					email<input type="email" name="email"required><br>
+					생년월일<input type="date" name="birthday"><br>					
 					성별 : 남자 <input type="radio" name="sex" value="man">
-			                             여자 <input type="radio" name="sex" value="woman"><br>
-		            email<input type="email" name="email"required><br>
-		            	<input type="submit" value="회원 가입">					
+	                       여자 <input type="radio" name="sex" value="woman"><br>
+		            
+		            <input type="submit" value="회원 가입">
+		            <input type="reset" value="다시 작성">					
 				</form>
 			</div>
 

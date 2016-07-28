@@ -52,6 +52,7 @@ function check(){
 
 </head>
 <body>
+<% request.setCharacterEncoding("utf-8"); %>
 
 <%@ page import="java.util.ArrayList, cuckoo.user.UserEntity" %>
 
@@ -106,7 +107,14 @@ function check(){
 	}
 	
 	
-	ArrayList<UserEntity> list = userdb.getUserEntityList(orderby,desc);
+	String field = request.getParameter("field");
+	String value = request.getParameter("value");
+	
+	
+	ArrayList<UserEntity> list = null;
+	if(userdb.getUserEntityList(orderby,desc,field,value)!=null){
+		list = userdb.getUserEntityList(orderby,desc,field,value);
+	}
 	int counter = list.size();
 	totalrows = list.size();
 	totalpages = (totalrows-1)/maxrows+1;
@@ -135,6 +143,7 @@ function check(){
        <td align=center><b><a href=user_admin.jsp?orderby=nickname&desc=<%=desc %>>별명</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=sex&desc=<%=desc %>>성별</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=email&desc=<%=desc %>>이메일</a></b></td>
+       <td align=center><b><a href=user_admin.jsp?orderby=birthday&desc=<%=desc %>>생년월일</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=regdate&desc=<%=desc %>>가입일</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=lastconn&desc=<%=desc %>>마지막로그인</a></b></td>
        <td align=center><b><a href=user_admin.jsp?orderby=manager&desc=<%=desc %>>매니저</a></b></td>
@@ -152,6 +161,7 @@ function check(){
        <td align=center><%= user.getNickname() %></td>
        <td align=center><%= user.getSex() %></td>
        <td align=center><%= user.getEmail() %></td>
+       <td align=center><%= user.getBirthday() %></td>
        <td align=center><%= user.getRegdate() %></td>
        <td align=center><%= user.getLastconn() %></td>
        <td align=center><%= user.getManager() %></td>
@@ -198,9 +208,19 @@ function check(){
 			%>
 			</td>
 			</tr>
+				
 	</table>
 	
 		
+	</form>
+	<form name=searchform action="user_admin.jsp" method=post>
+		<select name="field">
+			<option value="username">아름</option>
+			<option value="userid">아이디</option>
+		</select>
+		<input type="text" name="value">
+		<input type="submit" value="검색">
+	
 	</form>
 <% 	}
 %>
