@@ -84,6 +84,32 @@ public class ReplyDBCP {
 			return list;
 		}
 		
+		//댓글번호로 댓글 반환 메소드
+		public ReplyEntity getReply(int rpnum) {
+			connect();
+			ReplyEntity rp = new ReplyEntity();
+			
+			String sql = "select * from reply where rpnum=?";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, rpnum);
+				ResultSet rs = pstmt.executeQuery();	
+				rs.next();
+				rp.setNum(rs.getInt("num"));
+				rp.setReply(rs.getString("reply"));
+				rp.setRpnum(rs.getInt("rpnum"));
+				rp.setRpparent(rs.getInt("rpparent"));
+				rp.setReplytime(rs.getTimestamp("replytime"));
+				rp.setUserid(rs.getString("userid"));
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+			return rp;
+		}
+
 		//댓글 등록 메소드
 		public boolean insertDB(int num, String reply, String userid) {
 			boolean success = false;
@@ -150,18 +176,36 @@ public class ReplyDBCP {
 			return success;
 		}
 		
-		//댓글 수정 메소드2
-		public boolean updateDB(int rpnum, String newReply, int rpparent) {
+		//rpnum을 이용한 댓글 삭제
+		public boolean deleteDB(int rpnum) {
 			boolean success = false;
 			connect();
-			String sql = "update reply set reply = ?, rpparent=? where rpnum = ?";
+			String sql = "delete from reply where rpnum = ? or rpparent=?";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, newReply);
-				pstmt.setInt(2, rpparent);
-				pstmt.setInt(3, rpnum);
-				int rowUdt = pstmt.executeUpdate();
-				if (rowUdt == 1)	success = true;
+				pstmt.setInt(1, rpnum);
+				pstmt.setInt(2, rpnum);
+				pstmt.executeUpdate();
+				success = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return success;
+			} finally {
+				disconnect();
+			}
+			return success;
+		}
+		
+		//num을 이용한 댓글삭제(게시물삭제에 의한 댓글 삭제)
+		public boolean deleteDBByNews(int num) {
+			boolean success = false;
+			connect();
+			String sql = "delete from reply where num = ?";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				pstmt.executeUpdate();
+				success = true;
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return success;

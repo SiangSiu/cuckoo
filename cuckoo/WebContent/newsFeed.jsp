@@ -3,6 +3,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<style type="text/css">
+	.friend_block {	float: left; margin: 10px; width:690px; border-width:thin; border-style:solid; border-color:green;	}
+	table { width: 100%; }
+	td { max-width: 0; white-space:nowrap; overflow:hidden; text-overflow: ellipsis; }
+	td.thumbnail {	width: 8%;		}
+	td.context { width: 92%;}
+	
+
+</style>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 <title>Insert title here</title>
 </head>
@@ -54,9 +65,15 @@
 					for( NewsEntity news : newsList) {
 					%>
 						<tr>
-						<td><a href="boardView.jsp?num=<%=news.getNum()%>"><img  src="<%=news.getImgsrc() %>" width="50" height="50"></a></td>
-							<td> <a href="boardView.jsp?num=<%=news.getNum()%>"><%=news.getContent() %></a></td>
-							<!-- <td><input type="button" value="modify" onclick="goUrl('boardModifyForm.jsp');" /> -->
+						<td class="thumbnail" rowspan="2"><a href="boardView.jsp?num=<%=news.getNum()%>&userid=<%=userid %>"><img  src="<%=news.getImgsrc() %>" width="50" height="50"></a></td>
+							<td class="context" > <a href="boardView.jsp?num=<%=news.getNum()%>&userid=<%=userid %>"><%=news.getContent() %></a></td>
+						</tr>
+						<tr>
+							<td class="td1">
+							<img alt="엄지척" src="good_icon.png" width="25px">
+							<%=news.getGood() %>
+							<img alt="중지척" src="bad_icon.png" width="25px">
+							<%=news.getBad() %></td>
 						</tr>
 					<%
 						}

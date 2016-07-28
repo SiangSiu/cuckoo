@@ -34,32 +34,18 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript">
-
-function addLike(){
-		document.detailview.goodclick.value='checked';
-		alert("엄지척!을 하셨습니다.");
-		document.detailview.submit();		
-}
-
-function subLike(){
-	document.detailview.goodclick.value='unchecked';
-	alert("엄지척을 취소하셨습니다.")
+function modify(){
+	document.detailview.editContent.value='modify';
+	alert("게시물을 수정합니다.");
 	document.detailview.submit();
 }
 
-function addHate(){
-		document.detailview.badclick.value='checked';
-		alert("중지척!을 하셨습니다.");
-		document.detailview.submit();
-
-		
-}
-
-function subHate(){
-	document.detailview.badclick.value='unchecked';
-	alert("중지척을 취소하셨습니다.");
+function removeNews(){
+	document.detailview.deleteNews.value='delete';
+	alert("게시물을 삭제합니다.");
 	document.detailview.submit();
 }
+
 
 </script>
 <body>
@@ -96,37 +82,26 @@ function subHate(){
 <form action="boardProcess.jsp" name="detailview" id="frm" method="post">
 <input type="hidden" name="num" value="<%= num%>">
 <input type="hidden" name="userid" value="<%=userid%>">
-<input type="hidden" name="goodclick">
-<input type="hidden" name="badclick">
+<input type="hidden" name="deleteNews">
+<input type="hidden" name="editContent">
 <table>
 	<tr>
 		<td colspan="6"><img id="img"  src="<%=news.getImgsrc() %>" ></td>
 	</tr>
 	<tr>
-		<td colspan="6" id="contentText" ><%=news.getContent() %></td>
+		<td colspan="6" id="contentText" >
+		<textarea style="width:99%" cols="20" rows="5" title="게시물의 내용을 수정하세요." name="content" id="content"><%=news.getContent() %></textarea>
+		</td>
 	</tr>
 	<tr>
-	<%
-			
-			if(click.getGoodclick().equals("checked")){
-	%>
-		<td width="50px"><input type="button" id="good" onclick="subLike()"><label for="good"><img class="imgBtn" alt="엄지척 취소" src="good_icon.png"></label>
+		<td width="50px"><img class="imgBtn"  src="good_icon.png">
 		</td>
-		<%} else  { %>
-		<td width="50px"><input type="button" id="good" onclick="addLike()"><label for="good"><img class="imgBtn" alt="엄지척!" src="good_icon.png"></label>
-		</td>
-		<% } %>
 		<td class="btnRate" width="50px"><%=news.getGood() %></td>
-		<%	if(click.getBadclick().equals("checked")){ %>
-		<td width="50px"><input type="button" id="bad" onclick="subHate()"><label for="bad"><img class="imgBtn" alt="중지척 취소" src="bad_icon.png"></label>
+		<td width="50px"><img class="imgBtn" src="bad_icon.png">
 		</td>
-		<%}else{ %>
-		<td width="50px"><input type="checkbox" id="bad" onclick="addHate()"><label for="bad"><img class="imgBtn" alt="중지척!" src="bad_icon.png"></label>
-		</td>
-		<%} %>
 		<td class="btnRate" width="50px"><%=news.getBad() %></td>
-		<td><input type="text" name="reply"></td>
-		<td><input class="submit" type="submit" value="댓글달기" ></td>
+		<td><input type="button" id="modifyBtn" onclick="modify()"><label for="modifyBtn">수정</label></td>
+		<td><input type="button" id="deleteBtn" onclick="removeNews()"><label for="deleteBtn">삭제</label></td>
 	</tr>
 	<%
 		ArrayList<ReplyEntity> rpList = rpdb.getReplyList(Integer.parseInt(num));
@@ -147,9 +122,8 @@ function subHate(){
 					}
 				%>
 					<%=rpList.get(i).getReply() %>
-					<%if(rpList.get(i).getUserid().equals(userid)){ %>
-					<input type="button" id="btn<%=i%>" onclick="location.href='boardProcess.jsp?num=<%=num%>&userid=<%=userid%>&rpnum=<%=rpList.get(i).getRpnum()%>&edit=<%="modifyRp"%>';">
-					<label for="btn<%=i%>">수정</label><%} %>
+					<input type="button" id="Button<%=i %>" onclick="location.href='boardProcess.jsp?num=<%=num%>&userid=<%=userid%>&rpnum=<%=rpList.get(i).getRpnum()%>&edit=<%="deleteRp"%>';">
+					<label for="Button<%=i %>">삭제</label>
 					</td>
 				</tr>
 				<%for(int j=0; j<rpList.size(); j++){
@@ -163,22 +137,14 @@ function subHate(){
 								}
 							}
 						%>
-							<%=rpList.get(j).getReply() %> 
-							<%if(rpList.get(j).getUserid().equals(userid)){ %>
-							<input type="button" id="button<%=j %>" onclick="location.href='boardProcess.jsp?num=<%=num%>&userid=<%=userid%>&rpnum=<%=rpList.get(j).getRpnum()%>&edit=<%="modifyRp"%>';">
-							<label for="button<%=j %>">수정</label><%} %>
+							<%=rpList.get(j).getReply() %>
+							<input type="button" id="btn<%=j %>" onclick="location.href='boardProcess.jsp?num=<%=num%>&userid=<%=userid%>&rpnum=<%=rpList.get(j).getRpnum()%>&edit=<%="deleteRp"%>';">
+							<label for="btn<%=j %>">삭제</label>
 							</td>
 						</tr>
 						<%
 						}
 					}
-				%>
-					<tr>
-						<td colspan="5" ><input type="text" name="reply2">
-						<input type="hidden" name="rpparent" value="<%=rpList.get(i).getRpnum() %>"></td>
-						<td colspan="1" ><input class="submit" type="submit" value="댓글달기" ></td>
-					</tr>
-				<%
 				}
 			}
 		}

@@ -174,14 +174,14 @@ public class NewsDBCP {
    }
    
    //게시물 수정 메소드
-   public boolean updateDB(NewsEntity news) {
+	public boolean updateDB(int num, String newContent) {
       boolean success = false;
       connect();
       String sql = "update news set content = ? where num = ?";
       try {
          pstmt = con.prepareStatement(sql);
-         pstmt.setString(1, news.getContent());
-         pstmt.setInt(2, news.getNum());
+			pstmt.setString(1, newContent);
+			pstmt.setInt(2, num);
          int rowUdt = pstmt.executeUpdate();
          if (rowUdt == 1)   success = true;
       } catch (SQLException e) {

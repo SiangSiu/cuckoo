@@ -122,6 +122,22 @@ public class ClickableDBCP {
 			return success;
 		}
 		
-		
+		public boolean deleteDB(int num) {
+			boolean success = false;
+			connect();
+			String sql = "delete from clickable where num = ?";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				pstmt.executeUpdate();
+				success = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return success;
+			} finally {
+				disconnect();
+			}
+			return success;
+		}
 		
 }
