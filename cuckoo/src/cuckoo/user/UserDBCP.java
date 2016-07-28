@@ -321,7 +321,7 @@ public class UserDBCP {
 	public void updateLastConn(String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=sysdate()";
+		 String SQL = "update user_info set lastconn=now()";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
