@@ -7,7 +7,7 @@
 <!-- 초기화 -->
     <style>
         * { margin: 0; padding: 0; }
-        body { font-family: 'Times New Roman', serif; }
+        body { font-family: 'Times New Roman', serif;		background-color: #008959; }
         li { list-style: none; }
         a { text-decoration: none; }
         img { border: 0; }
@@ -15,10 +15,18 @@
 
 <style type="text/css">
 /* 중앙 정렬*/
-	div { width: 960px; margin: 0 auto; position: relative; }
+	div { width: 960px;  padding: 5px; margin: 0 auto; position: relative; background-color: #f0fff0; }
 	#good { display: none; }
 	#bad { display: none; }
-	#close {position: absolute;		right: 0;	bottom: 0;}
+	#close {position: absolute;		right: 0;	top: 0;}
+	/* 좋싫 버튼 */
+	.imgBtn { height: 50px;		width: 50px; }
+	/*좋싫 숫자*/
+	.btnRate { font-size: 3.5em; }
+	#img { height: 955px;	width: 955px; }
+	#contentText { font-size: 2em; }
+	.submit { position: relative; left: 100px; }
+	tr { background-color: #f0fff0; }
 </style>
 
 
@@ -50,6 +58,12 @@ function addHate(){
 function subHate(){
 	document.detailview.badclick.value='unchecked';
 	alert("중지척을 취소하셨습니다.");
+	document.detailview.submit();
+}
+
+function modifyRp(){
+	document.detailview.edit.value='modifyRp';
+	alert("댓글을 수정합니다.");
 	document.detailview.submit();
 }
 </script>
@@ -91,33 +105,33 @@ function subHate(){
 <input type="hidden" name="badclick">
 <table>
 	<tr>
-		<td colspan="6"><img  src="<%=news.getImgsrc() %>" width="500" height="500"></td>
+		<td colspan="6"><img id="img"  src="<%=news.getImgsrc() %>" ></td>
 	</tr>
 	<tr>
-		<td colspan="6"><%=news.getContent() %></td>
+		<td colspan="6" id="contentText" ><%=news.getContent() %></td>
 	</tr>
 	<tr>
 	<%
 			
 			if(click.getGoodclick().equals("checked")){
 	%>
-		<td><input type="button" id="good" onclick="subLike()"><label for="good">엄지척 취소</label>
+		<td width="50px"><input type="button" id="good" onclick="subLike()"><label for="good"><img class="imgBtn" alt="엄지척 취소" src="good_icon.png"></label>
 		</td>
 		<%} else  { %>
-		<td><input type="button" id="good" onclick="addLike()"><label for="good">엄지척!</label>
+		<td width="50px"><input type="button" id="good" onclick="addLike()"><label for="good"><img class="imgBtn" alt="엄지척!" src="good_icon.png"></label>
 		</td>
 		<% } %>
-		<td><%=news.getGood()-1 %></td>
+		<td class="btnRate" width="50px"><%=news.getGood()-1 %></td>
 		<%	if(click.getBadclick().equals("checked")){ %>
-		<td><input type="button" id="bad" onclick="subHate()"><label for="bad">중지척 취소</label>
+		<td width="50px"><input type="button" id="bad" onclick="subHate()"><label for="bad"><img class="imgBtn" alt="중지척 취소" src="bad_icon.png"></label>
 		</td>
 		<%}else{ %>
-		<td><input type="checkbox" id="bad" onclick="addHate()"><label for="bad">중지척!</label>
+		<td width="50px"><input type="checkbox" id="bad" onclick="addHate()"><label for="bad"><img class="imgBtn" alt="중지척!" src="bad_icon.png"></label>
 		</td>
 		<%} %>
-		<td><%=news.getBad()-1 %></td>
+		<td class="btnRate" width="50px"><%=news.getBad()-1 %></td>
 		<td><input type="text" name="reply"></td>
-		<td><input type="submit" value="댓글달기" ></td>
+		<td><input class="submit" type="submit" value="댓글달기" ></td>
 	</tr>
 	<%
 		ArrayList<ReplyEntity> rpList = rpdb.getReplyList(Integer.parseInt(num));
@@ -137,7 +151,11 @@ function subHate(){
 						}
 					}
 				%>
-					<%=rpList.get(i).getReply() %></td>
+					<%=rpList.get(i).getReply() %>
+					<%if(rpList.get(i).getUserid().equals(userid)){ %>
+					<input type="button" id="btn<%=i%>" name="edit" onclick="modifyRp()"><label for="btn<%=i%>">수정</label><%} %>
+					<input type="hidden" name="rpnum" value="<%=rpList.get(i).getRpnum()%>">
+					</td>
 				</tr>
 				<%for(int j=0; j<rpList.size(); j++){
 						if(rpList.get(j).getRpparent()==rpList.get(i).getRpnum()&&rpList.get(j).getRpparent()!=0){
@@ -150,16 +168,20 @@ function subHate(){
 								}
 							}
 						%>
-							<%=rpList.get(j).getReply() %> </td>
+							<%=rpList.get(j).getReply() %> 
+							<%if(rpList.get(j).getUserid().equals(userid)){ %>
+							<input type="button" id="button<%=j %>" name="edit" onclick="modifyRp()"><label for="button<%=j %>">수정</label><%} %>
+							<input type="hidden" name="rpnum" value="<%=rpList.get(j).getRpnum()%>">
+							</td>
 						</tr>
 						<%
 						}
 					}
 				%>
 					<tr>
-						<td><input type="text" name="reply2">
+						<td colspan="5" ><input type="text" name="reply2">
 						<input type="hidden" name="rpparent" value="<%=rpList.get(i).getRpnum() %>"></td>
-						<td><input type="submit" value="댓글달기" ></td>
+						<td colspan="1" ><input class="submit" type="submit" value="댓글달기" ></td>
 					</tr>
 				<%
 				}
