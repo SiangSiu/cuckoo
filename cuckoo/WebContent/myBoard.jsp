@@ -12,6 +12,7 @@
 <%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat" %>
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 <jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
+<% request.setCharacterEncoding("utf-8"); %>
 <%
 	String userid = request.getParameter("userid");
 
