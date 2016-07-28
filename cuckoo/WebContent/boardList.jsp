@@ -14,7 +14,7 @@
     <!-- 초기화 -->
     <style>
         * { margin: 0; padding: 0; }
-        body { font-family: 'Times New Roman', serif; }
+        body { font-family: 'Times New Roman', serif;  background-color: #008959; }
         li { list-style: none; }
         a { text-decoration: none; }
         img { border: 0; }
@@ -56,15 +56,15 @@
     <style>
        #content {
        	width: 960px;	margin: 0 auto;	overflow: hidden;
-       	background-color: black;
+       	background-color: #f0fff0;
        }
        #content > #main_section {
-       	width: 750px; height:800px; 	float: left;	overflow: auto;
+       	width: 750px; height:1000px; 	float: left;	overflow: auto;
        }
        
        
        #content > #main_aside {
-       	width: 200px; height: 800px;	float: right;
+       	width: 190px; height: 800px;	float: right;
        }
     </style>
     <!-- 본문 -->
@@ -160,20 +160,7 @@
     .tab_item { overflow :hidden; }
     </style>
     <!-- 목록 -->
-    <style>
-        .item {
-        	overflow: hidden;	padding-top: 10px;
-        }
-        
-        .thumbnail {float: left;}
-        
-        
-        .description {float: left; margin-left: 10px;}
-        .description > strong {
-        	display:block;	width: 100px;	
-        	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;
-        }
-    </style>
+    
     <!-- 푸터 -->
     <style>
        #main_footer {
@@ -188,7 +175,7 @@
        	text-align: center;
        }
        
-       address {color: rgb(200, 200, 200);}
+       address {color: rgb(100, 100, 100);}
        
     </style>
     
@@ -264,8 +251,8 @@
     
     <!-- Footer -->
     <footer id="main_footer">
-    	<h3>HTML5 + CSS3 Basic</h3>
-    	<address>Website Layout Basic</address>
+    	<h2>BbㅓCooㄱi</h2>
+    	<address>www.bbeocooki.com</address>
     </footer>
    
 </body>
