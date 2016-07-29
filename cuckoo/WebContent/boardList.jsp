@@ -189,8 +189,12 @@
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 
 
-<% String userid =  request.getParameter("userid");
-	 userid = "musha666";
+<% 
+	String userid =  (String)session.getAttribute("user_info_userid");
+	if(request.getParameter("userid")!=null){
+		userid = request.getParameter("userid");		
+	}
+
 	 String up = request.getParameter("up");
 	
 	

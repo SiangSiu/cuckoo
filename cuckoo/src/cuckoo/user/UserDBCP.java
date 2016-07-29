@@ -300,8 +300,8 @@ public class UserDBCP {
 	public void setUserEntityList(UserEntity user) {
 		connect();
 		 
-		 String SQL = "insert into User_Info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, BIRTHDAY, REGDATE, LASTCONN, MANAGER, TEMP, profilesrc) ";
-		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), 'N', 0, birdHead.png)";
+		 String SQL = "insert into user_info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, BIRTHDAY, REGDATE, LASTCONN, MANAGER, TEMP, profilesrc) ";
+		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), 'N', 0, 'birdHead.png')";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				pstmt.setString(1, user.getUserid());
@@ -358,14 +358,14 @@ public class UserDBCP {
 			}
 	}
 
-	public void updateLastConn(UserEntity user) {
+	public void updateLastConn(String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=sysdate";
+		 String SQL = "update user_info set lastconn=sysdate()";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.setString(1, user.getUserid());
+				pstmt.setString(1, userid);
 				pstmt.executeUpdate();
 					
 			} catch (SQLException e) {

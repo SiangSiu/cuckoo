@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR" import="java.sql.*,java.text.*,java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8" import="java.sql.*,java.text.*,java.util.*"%>
     <%request.setCharacterEncoding("utf-8"); %>
     
     <jsp:useBean id="user" class="cuckoo.user.UserEntity" scope="page" />
@@ -21,7 +21,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>가입완료</title>
 </head>
 <body>

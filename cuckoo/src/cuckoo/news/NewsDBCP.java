@@ -89,7 +89,7 @@ public class NewsDBCP {
 		connect();
 		ArrayList<NewsEntity>list = new ArrayList<NewsEntity>();
 		
-		String sql = "select * from news where userid = ?";
+		String sql = "select * from news where userid = ? order by regtime";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, frinedId);
