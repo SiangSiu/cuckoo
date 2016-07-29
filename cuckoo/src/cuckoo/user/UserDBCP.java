@@ -100,6 +100,7 @@ public class UserDBCP {
 							user.setLastconn(rs.getTimestamp("lastConn"));
 							user.setManager(rs.getString("manager"));
 							user.setTemp(rs.getString("temp"));
+					user.setProfilesrc(rs.getString("profilesrc"));
 							
 							list.add(user);
 						}
@@ -143,6 +144,7 @@ public class UserDBCP {
 						user.setLastconn(rs.getTimestamp("lastConn"));
 						user.setManager(rs.getString("manager"));
 						user.setTemp(rs.getString("temp"));
+						user.setProfilesrc(rs.getString("profilesrc"));
 						
 						list.add(user);
 					}
@@ -181,10 +183,12 @@ public class UserDBCP {
 				user.setPassword(rs.getString("PASSWORD"));
 				user.setSex(rs.getString("SEX"));
 				user.setEmail(rs.getString("EMAIL"));
+				user.setBirthday(rs.getString("birthday"));
 				user.setRegdate(rs.getTimestamp("REGDATE"));
 				user.setLastconn(rs.getTimestamp("LASTCONN"));
 				user.setManager(rs.getString("MANAGER"));
 				user.setTemp(rs.getString("TEMP"));
+				user.setProfilesrc(rs.getString("profilesrc"));
 					
 			
 				rs.close();			
@@ -244,7 +248,7 @@ public class UserDBCP {
 					UserEntity user = new UserEntity();
 					String friendid=rs.getString("FRIENDID");
 					
-					SQL = "SELECT * FROM UserEntity where userid='"+friendid+"'";
+					SQL = "SELECT * FROM user_info where userid='"+friendid+"'";
 					pstmt = con.prepareStatement(SQL);
 					ResultSet rs2 = pstmt.executeQuery();
 					rs2.next();
@@ -296,8 +300,8 @@ public class UserDBCP {
 	public void setUserEntityList(UserEntity user) {
 		connect();
 		 
-		 String SQL = "insert into User_Info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, BIRTHDAY, REGDATE, LASTCONN, MANAGER, TEMP) ";
-		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), 'N', 0)";
+		 String SQL = "insert into User_Info(USERID, USERNAME, NICKNAME, PASSWORD, SEX, EMAIL, BIRTHDAY, REGDATE, LASTCONN, MANAGER, TEMP, profilesrc) ";
+		 SQL = SQL + "values(?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), 'N', 0, birdHead.png)";
 		 try {
 				pstmt = con.prepareStatement(SQL);
 				pstmt.setString(1, user.getUserid());
@@ -317,15 +321,51 @@ public class UserDBCP {
 			}
 	}
 	
-	// 회원 로그인 했을 때 마지막 로그인 업데이트
-	public void updateLastConn(String userid) {
+	public void updateUserEntityTemp(String refresh, String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=now()";
+		 String SQL = "update user_info set TEMP=? where userid= ?";
+		 try {
+				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, refresh);
+				pstmt.setString(2, userid);
+				pstmt.executeUpdate();
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				disconnect();
+			}
+	}
+	
+	//프로필 수정
+	public void updateUserEntityProfile(String profilesrc, String userid) {
+		connect();
+		 
+		 String SQL = "update user_info set profilesrc=? where userid= ?";
+		 try {
+				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, profilesrc);
+				pstmt.setString(2, userid);
+				pstmt.executeUpdate();
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				disconnect();
+			}
+	}
+
+	public void updateLastConn(UserEntity user) {
+		connect();
+		 
+		 String SQL = "update user_info set lastconn=sysdate";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.setString(1, userid);
+				pstmt.setString(1, user.getUserid());
 				pstmt.executeUpdate();
 					
 			} catch (SQLException e) {

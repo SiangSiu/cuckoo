@@ -11,7 +11,9 @@
 	td.thumbnail {	width: 8%;		}
 	td.context { width: 92%;}
 	
-
+	div#newsFeedName {heigt: 40px;}
+	img.frndImg { height: 45px; vertical-align: top; }
+	b.frndName { font-size: 35px; }
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
@@ -48,8 +50,11 @@
 			%>
 			
 			<div class="friend_block">
-			<%UserEntity userfrnd = userdb.getUserEntity(frndList[i]); %>
-				<h1><%=userfrnd.getUsername() %></h1>
+				<div id="newsFeedName">
+				<%UserEntity userfrnd = userdb.getUserEntity(frndList[i]); %>
+					<img class="frndImg" id="fImg" alt="친구프사" src="<%=userfrnd.getProfilesrc()%>">
+					<b class="frndName"><%=userfrnd.getUsername() %></b>
+					</div>
 				<%
 				ArrayList<NewsEntity> newsList = newsdb.getFriendNewsList(userfrnd.getUserid());
 				int counter = newsList.size();
@@ -62,7 +67,13 @@
 					<%
 					//날짜시간 형태설정 및 게시물 레코드 반환 반복문 시작
 					SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss");
-					for( NewsEntity news : newsList) {
+					 NewsEntity news = new NewsEntity();
+					 int g=5;
+					 if(newsList.size()<5){
+						 g=newsList.size();
+					 }
+					for(int k=0; k<g; k++) {
+						news = newsList.get(k);
 					%>
 						<tr>
 						<td class="thumbnail" rowspan="2"><a href="boardView.jsp?num=<%=news.getNum()%>&userid=<%=userid %>"><img  src="<%=news.getImgsrc() %>" width="50" height="50"></a></td>

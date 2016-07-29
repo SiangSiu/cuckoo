@@ -13,8 +13,9 @@ public class UserEntity {
 	private Date regdate;
 	private Date lastconn;
 	private String manager;
-	private String temp;	
-
+	private String temp;
+	private String profilesrc;
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -102,5 +103,13 @@ public class UserEntity {
 	public void setTemp(String temp) {
 		this.temp = temp;
 	}
-
+	public String getProfilesrc() {
+		return profilesrc;
+	}
+	public void setProfilesrc(String profilesrc) {
+		this.profilesrc = profilesrc;
+	}
+	
+	
+	
 }

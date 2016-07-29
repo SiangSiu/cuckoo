@@ -127,6 +127,11 @@
 	 			clickdb.deleteDB(Integer.parseInt(num));
 	 			response.sendRedirect("boardList.jsp?num="+num+"&userid="+userid+"&up=1");
 	 		}
+	 	}else if(names.equals("setprofile")) {
+	 		if(request.getParameter("setprofile").equals("set")) {
+	 			userdb.updateUserEntityProfile(request.getParameter("profileSrc"), userid);
+	 			response.sendRedirect("boardList.jsp?num="+num+"&userid="+userid+"&up=1");
+	 		}
 	 	}
 	 }
 	 

@@ -27,10 +27,10 @@
 
     // 웹 컨텐츠 경로
     String absolutePath = System.getProperty("user.dir")+"/workspace"+request.getContextPath()+"/WebContent/Img";
-    String root = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort()+request.getContextPath();
+   // String root = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort()+request.getContextPath();
  
     // 파일 저장 경로(ex : /home/tour/web/ROOT/upload)
-    String savePath = root + "/Img";
+    String savePath = "../Img";
  
     // 업로드 파일명
     String uploadFile = "";

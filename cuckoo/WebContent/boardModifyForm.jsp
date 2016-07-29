@@ -46,7 +46,14 @@ function removeNews(){
 	document.detailview.submit();
 }
 
-
+function setProfile(){
+	if(confirm("프로필 사진으로 지정하시겠습니까?")){
+		document.detailview.setprofile.value='set';
+		document.detailview.submit();
+	}
+	
+	
+}
 </script>
 <body>
 <%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat, java.util.Enumeration, cuckoo.reply.*,cuckoo.clickable.*" %>
@@ -84,9 +91,11 @@ function removeNews(){
 <input type="hidden" name="userid" value="<%=userid%>">
 <input type="hidden" name="deleteNews">
 <input type="hidden" name="editContent">
+<input type="hidden" name="profileSrc" value="<%=news.getImgsrc()%>">
+<input type="hidden" name="setprofile">
 <table>
 	<tr>
-		<td colspan="6"><img id="img"  src="<%=news.getImgsrc() %>" ></td>
+		<td colspan="6"><img id="img"  src="<%=news.getImgsrc() %>" onclick="setProfile()" ></td>
 	</tr>
 	<tr>
 		<td colspan="6" id="contentText" >
