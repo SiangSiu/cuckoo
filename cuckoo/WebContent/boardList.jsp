@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
     pageEncoding="utf8"%>
+    <% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -189,15 +190,42 @@
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 
 
-<% 
-	String userid =  (String)session.getAttribute("user_info_userid");
-	if(request.getParameter("userid")!=null){
-		userid = request.getParameter("userid");		
+<% String userid =  (String)session.getAttribute("user_info_userid");
+	 String uptmp = request.getParameter("up");
+	 int up=0;
+	 if(uptmp!=null){
+		 up = Integer.parseInt(uptmp);
+	 }
+	 String manager = (String)session.getAttribute("user_info_manager");
+	
+	String imgSrc = request.getParameter("backg");
+	if(imgSrc!=null){
+		userdb.updateBackground(userid, imgSrc);
 	}
+	String go="";
+	String gogroup="";
+	String orderby="lastconn";
+	int desc = 0; 
+	String field="";
+	String value="";
 
-	 String up = request.getParameter("up");
+	if(request.getParameter("go")!=null){
+	go = request.getParameter("go");
+	}
+	if( request.getParameter("orderby")!=null && !request.getParameter("orderby").equals("")) {
+		orderby = (String)request.getParameter("orderby");
+	}
 	
+	if(request.getParameter("desc")!=null && !request.getParameter("desc").equals("")){
+		desc = Integer.parseInt(request.getParameter("desc"));
+	}
 	
+	if(request.getParameter("field")!=null){
+		field = request.getParameter("field");
+	}
+	if(request.getParameter("value")!=null){
+		value = request.getParameter("value");
+	}
 	
 	//접속 user info 확보
 	UserEntity userInfo = userdb.getUserEntity(userid);
@@ -218,7 +246,11 @@
     	
     	<!-- Main Section -->
     	<section id="main_section">
-    	<% if (up != null){ %>
+    	<% if(up ==3 ){ %>
+    		<input id="firstTab" type="radio" name="tab" />
+    		<input id="secondTab" type="radio" name="tab" />
+    		<input id="thirdTab" type="radio" name="tab" checked="checked"/>
+    	<%} else if (up == 1){ %>
     		<input id="firstTab" type="radio" name="tab" />
     		<input id="secondTab" type="radio" name="tab" checked="checked"/>
     		<input id="thirdTab" type="radio" name="tab" />
@@ -243,7 +275,22 @@
     			</jsp:include>
     		</div>
     		<div class="tab_item">
+    			<jsp:include page="myBoard_setting.jsp" flush="false">
+    				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
+    			</jsp:include>
     			
+    			<%if(manager.equalsIgnoreCase("Y")){ %>
+				<jsp:include page="user_admin.jsp" flush="false">
+					<jsp:param name="userid" value="<%=userInfo.getUserid() %>" />
+					<jsp:param name="go" value="<%=go %>" />
+					<jsp:param name="gogroup" value="<%=gogroup %>" />
+					<jsp:param name="orderby" value="<%=orderby %>" />
+					<jsp:param name="desc" value="<%=desc %>" />
+					<jsp:param name="field" value="<%=field %>" />
+					<jsp:param name="value" value="<%=value %>" />
+				</jsp:include>
+
+				<%} %>
     		</div>
     	</section>
     	

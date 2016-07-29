@@ -361,7 +361,7 @@ public class UserDBCP {
 	public void updateLastConn(String userid) {
 		connect();
 		 
-		 String SQL = "update user_info set lastconn=sysdate()";
+		 String SQL = "update user_info set lastconn=now()";
 		 SQL = SQL + " where userid=?";
 		 try {
 				pstmt = con.prepareStatement(SQL);
@@ -514,4 +514,77 @@ public class UserDBCP {
 			 
 			 return check;
 		}
+		
+		// 배경 업데이트 .
+		public void updateBackground(String userid, String imgSrc) {
+			connect();
+			 
+			 String SQL = "update user_info set temp=?";
+			 SQL = SQL + " where userid=?";
+			 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, imgSrc);
+					pstmt.setString(2, userid);
+					pstmt.executeUpdate();
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
+				}
+		}
+		
+		// 배경 체크
+				public boolean checkBackground(String userid) {
+					connect();
+					 boolean check =false;
+					 String SQL = "select temp from user_info where userid=?";
+					 try {
+							pstmt = con.prepareStatement(SQL);
+							pstmt.setString(1, userid);
+							ResultSet rs = pstmt.executeQuery();
+							
+							rs.next();
+							
+							if(rs.getString("temp")!=null || !rs.getString("temp").equals("")){
+								check = true;
+							}
+							
+							rs.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} 
+						finally {
+							disconnect();
+						}
+					 return check;
+				}
+				
+				public String getBackground(String userid) {
+					String str="";
+					connect();
+					 String SQL = "select temp from user_info where userid=?";
+					 try {
+							pstmt = con.prepareStatement(SQL);
+							pstmt.setString(1, userid);
+							ResultSet rs = pstmt.executeQuery();
+							
+							rs.next();
+							
+							str = rs.getString("temp");
+							
+							rs.close();
+								
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} 
+						finally {
+							disconnect();
+						}
+					 return str;
+				}
+				
+				
+		
 }

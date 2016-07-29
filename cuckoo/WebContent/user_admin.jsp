@@ -56,8 +56,8 @@ function check(){
 
 <%@ page import="java.util.ArrayList, cuckoo.user.UserEntity" %>
 
-<hr><center>
-<h2>회원 관리</h2>
+
+<h2 align="left">회원 관리</h2>
 
 	<jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 <%
@@ -69,12 +69,12 @@ function check(){
 	int endpage=startpage+maxpages-1;
 	int wheregroup=1;
 	
-	if(request.getParameter("go")!=null){
+	if(request.getParameter("go")!=null && !request.getParameter("go").equals("")){
 		where = Integer.parseInt(request.getParameter("go"));
 		wheregroup = (where-1)/maxpages + 1;
 		startpage=(wheregroup-1) * maxpages + 1;
 		endpage = startpage + maxpages-1;
-	} else if(request.getParameter("gogroup")!=null){
+	} else if(request.getParameter("gogroup")!=null && !request.getParameter("gogroup").equals("")){
 		wheregroup = Integer.parseInt(request.getParameter("gogroup"));
 		startpage=(wheregroup-1) * maxpages+1;
 		where = startpage;
@@ -93,11 +93,11 @@ function check(){
 	String orderby ="lastconn";
 	int desc = 0;
 	
-	if( request.getParameter("orderby")!=null) {
+	if( request.getParameter("orderby")!=null && !request.getParameter("orderby").equals("")) {
 		orderby = (String)request.getParameter("orderby");
 	}
 	
-	if(request.getParameter("desc")!=null){
+	if(request.getParameter("desc")!=null && !request.getParameter("desc").equals("")){
 		desc = Integer.parseInt(request.getParameter("desc"));
 		if(desc==1)
 			desc = 0;
@@ -130,24 +130,23 @@ function check(){
 	
 	if (counter > 0) {
 %>
-	<p><hr>조회된 회원 수가 <%=counter%>명 입니다.
-	</br>
+	<p><hr><h4 align="center">조회된 회원 수가 <%=counter%>명 입니다.</h3>
+	<br>
 	<form name=form method=post action="processuser.jsp">
 	<input type="hidden" name="menu" value="">
     <table width=100% border=2 cellpadding=1>
     
     <tr>
     	<td><input type="checkbox" name="all" onclick="check();"><br></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=userid&desc=<%=desc %>>아이디</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=username&desc=<%=desc %>>이름</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=nickname&desc=<%=desc %>>별명</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=sex&desc=<%=desc %>>성별</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=email&desc=<%=desc %>>이메일</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=birthday&desc=<%=desc %>>생년월일</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=regdate&desc=<%=desc %>>가입일</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=lastconn&desc=<%=desc %>>마지막로그인</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=manager&desc=<%=desc %>>매니저</a></b></td>
-       <td align=center><b><a href=user_admin.jsp?orderby=temp&desc=<%=desc %>>비고</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=userid&desc=<%=desc %>&up=3>아이디</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=username&desc=<%=desc %>&up=3>이름</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=nickname&desc=<%=desc %>&up=3>별명</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=sex&desc=<%=desc %>&up=3>성별</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=email&desc=<%=desc %>&up=3>이메일</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=birthday&desc=<%=desc %>&up=3>생년월일</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=regdate&desc=<%=desc %>&up=3>가입일</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=lastconn&desc=<%=desc %>&up=3>마지막로그인</a></b></td>
+       <td align=center><b><a href=boardList.jsp?orderby=manager&desc=<%=desc %>&up=3>매니저</a></b></td>
        
     </tr>
 <%
@@ -165,7 +164,6 @@ function check(){
        <td align=center><%= user.getRegdate() %></td>
        <td align=center><%= user.getLastconn() %></td>
        <td align=center><%= user.getManager() %></td>
-       <td align=center><%= user.getTemp() %></td>
        
     </tr>
 <%
@@ -174,15 +172,15 @@ function check(){
 	</table>
 	<table>
 	<tr>
-		<td align=left >
+		<td>
 		<input type="button" value="매니저로" onclick="updatemanagercheck()">&nbsp;&nbsp;
 		<input type="button" value="매니저에서 빠이염" onclick="updatenomanagercheck()">&nbsp;&nbsp;
 		<input type="button" value="삭제" onclick="deletecheck()">
 		</td>
-		<td align=center>
+		<td>
 		<%if (wheregroup >1) { 	%>
-			[<a href=user_admin.jsp?gogroup=1>처음</a>]
-			[<a href=user_admin.jsp?gogroup=<%=priorgroup %>>이전</a>]
+			[<a href=boardList.jsp?gogroup=1&up=3>처음</a>]
+			[<a href=boardList.jsp?gogroup=&up=3<%=priorgroup %>>이전</a>]
 		<% }else{ %>
 			[처음]
 			[이전]
@@ -192,14 +190,14 @@ function check(){
 				if(j==where){
 					out.println("["+j+"]");
 				}else{
-					out.println("[<a href=user_admin.jsp?go="+j+">"+j+"</a>]");
+					out.println("[<a href=boardList.jsp?go="+j+">"+j+"</a>]");
 				}
 					
 			}
 		}
 		if(wheregroup < totalgroup) { %>
-			[<a href=user_admin.jsp?gogroup=<%=nextgroup %>>다음</a>]
-			[<a href=user_admin.jsp?gogroup=<%=totalgroup %>>마지막</a>]
+			[<a href=boardList.jsp?up=3&gogroup=<%=nextgroup %>>다음</a>]
+			[<a href=boardList.jsp?up=3&gogroup=<%=totalgroup %>>마지막</a>]
 		<% 
 		} else {%>
 		[다음]
@@ -213,11 +211,12 @@ function check(){
 	
 		
 	</form>
-	<form name=searchform action="user_admin.jsp" method=post>
+	<form name=searchform action="boardList.jsp" method=post>
 		<select name="field">
 			<option value="username">아름</option>
 			<option value="userid">아이디</option>
 		</select>
+		<input type="hidden" name="up" value="3">
 		<input type="text" name="value">
 		<input type="submit" value="검색">
 	
@@ -225,7 +224,7 @@ function check(){
 <% 	}
 %>
 
-</center>
+
 
 
 

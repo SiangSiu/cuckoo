@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
     pageEncoding="utf8"%>
+    <% request.setCharacterEncoding("utf-8"); %>
+    
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,8 +28,19 @@
 	td#friendbutton > font { font-size: 3em;}
 	td#friendbutton > img { width: 50px; height: 50px; }
 	
+	#myback{
+		background-image: url("<%=background%>");
+		background-size:100%;
+		border: 1px solid gray;	border-top-color: white;
+		padding: 15px;
+		border-radius: 0 0 3px 3px;
+		width: 900px; height:1000px; 
+	}
+	.myFeed {	float: left; margin: 10px; width:216px; 
 	
-	.myFeed {	float: left; margin: 10px; width:210px; 	}
+	
+	.myFeed {	float: left; margin: 10px; width:210px; 
+		background: rgba(249,249,249, 0.6);	}
 	table { width: 100%; }
 	tr { padding: 0; }
 	td { padding: 0; max-width: 0; white-space:nowrap; overflow:hidden; text-overflow: ellipsis; }
@@ -50,6 +64,12 @@
 <jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
 <%
 	String userid = request.getParameter("userid");
+	
+	String background="";
+	
+	if(userdb.checkBackground(userid)){
+		background = userdb.getBackground(userid);
+	}
 
 	UserEntity userInfo = userdb.getUserEntity(userid);
 	if(request.getParameter("frndid")!=null && request.getParameter("frndid")!="") {
@@ -59,7 +79,7 @@
 
 //String imgSrc = savePath+ newFileName;
 %>
-
+<div id="myback">
 <div id="profilebox">
 	<table>
 		<tr>
@@ -99,7 +119,6 @@
 			
 	</table>
 </div>
-
 <jsp:include page="upload.jsp">
 <jsp:param value="<%=userid %>" name="userid"/>
 <jsp:param value="<%=userInfo.getNickname() %>" name="nickname"/>
@@ -117,7 +136,8 @@
 					<%
 					//날짜시간 형태설정 및 게시물 레코드 반환 반복문 시작
 					SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss");
-					for( NewsEntity news : newsList) {
+					for( int i=newsList.size()-1;  i>=0; i-- ) {
+						NewsEntity news = newsList.get(i);
 					%>
 					<div class="myFeed" >
 					<table>
@@ -144,6 +164,7 @@
 				}
 				%>
 
+</div>
 
 </body>
 </html>

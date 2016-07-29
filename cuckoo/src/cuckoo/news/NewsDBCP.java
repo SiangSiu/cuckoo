@@ -296,4 +296,28 @@ public class NewsDBCP {
       return success;
    }
    
+   // 이미지 소스 경로 조회.
+public ArrayList<String> searchImg(String userid) {
+	   ArrayList<String> arr = new ArrayList<String>();
+	   	
+	      connect();
+	      String sql = "select imgsrc from news where userid=?";
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setString(1, userid);
+	         ResultSet rs = pstmt.executeQuery();
+	         
+	         while(rs.next()){
+	        	 arr.add(rs.getString("imgsrc"));
+	         }
+	         
+	         rs.close();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         disconnect();
+	      }
+	      return arr;
+	   }
+   
 }

@@ -25,7 +25,7 @@
 <%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat" %>
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 <jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
-<%	String userid = request.getParameter("userid"); %>
+<%	String userid = (String)session.getAttribute("user_info_userid"); %>
 
     		<form name="searchForm" action="boardList.jsp" method="get" onsubmit="return searchCheck();">
 	    		

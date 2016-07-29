@@ -43,7 +43,7 @@
 					
 				}
 				
-				response.sendRedirect("user_admin.jsp");	
+				response.sendRedirect("boardList.jsp?up=3");	
 			} else if(menu.equals("updatemanager")) {
 				String[] ids = request.getParameterValues("users");
 			
@@ -53,7 +53,7 @@
 					userdb.updateManager(ids[i]);
 					
 				}
-				response.sendRedirect("user_admin.jsp");	
+				response.sendRedirect("boardList.jsp?up=3");	
 				
 			} else if(menu.equals("updatenomanager")) {
 				String[] ids = request.getParameterValues("users");
@@ -64,7 +64,7 @@
 					userdb.updateNoManager(ids[i]);
 					
 				}
-				response.sendRedirect("user_admin.jsp");	
+				response.sendRedirect("boardList.jsp?up=3");	
 				
 			}
 				
