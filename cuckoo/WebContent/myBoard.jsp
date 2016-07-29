@@ -1,6 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
     pageEncoding="utf8"%>
     <% request.setCharacterEncoding("utf-8"); %>
+    <%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat" %>
+<jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
+<jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
+<%
+	String userid = request.getParameter("userid");
+	
+	String background="";
+	
+	if(userdb.checkBackground(userid)){
+		background = userdb.getBackground(userid);
+	}
+
+	UserEntity userInfo = userdb.getUserEntity(userid);
+	if(request.getParameter("frndid")!=null && request.getParameter("frndid")!="") {
+		String frnd = request.getParameter("frndid");
+		userInfo = userdb.getUserEntity(frnd);
+	} 
+
+//String imgSrc = savePath+ newFileName;
+%>
     
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,26 +79,7 @@
 
 
 <body>
-<%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat" %>
-<jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
-<jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
-<%
-	String userid = request.getParameter("userid");
-	
-	String background="";
-	
-	if(userdb.checkBackground(userid)){
-		background = userdb.getBackground(userid);
-	}
 
-	UserEntity userInfo = userdb.getUserEntity(userid);
-	if(request.getParameter("frndid")!=null && request.getParameter("frndid")!="") {
-		String frnd = request.getParameter("frndid");
-		userInfo = userdb.getUserEntity(frnd);
-	} 
-
-//String imgSrc = savePath+ newFileName;
-%>
 <div id="myback">
 <div id="profilebox">
 	<table>
