@@ -25,27 +25,49 @@
 <%@ page import="java.util.ArrayList, cuckoo.user.*, cuckoo.news.*, java.text.SimpleDateFormat" %>
 <jsp:useBean id="userdb" class="cuckoo.user.UserDBCP" scope="page" />
 <jsp:useBean id="newsdb" class="cuckoo.news.NewsDBCP" scope="page" />
-<%	String userid = (String)session.getAttribute("user_info_userid"); %>
+<%	String userid = (String)session.getAttribute("user_info_userid");
+String searchType="";
+String searchText="";
+
+if(request.getParameter("searchType")!=null){
+	searchType = request.getParameter("searchType");
+}
+if(request.getParameter("searchText")!=null){
+	searchText = request.getParameter("searchText");
+}
+
+
+
+%>
 
     		<form name="searchForm" action="boardList.jsp" method="get" onsubmit="return searchCheck();">
 	    		
 				    		<select name="searchType">
 								<option value="ALL" selected="selected">All</option>
-								<option value="WRITER" >Writer</option>
-								<option value="CONTENTS" >Contents</option>
+								<option value="username" >이름</option>
+								<option value="userid" >아이디</option>
 							</select>
 						
 							<input class="search" type="text" name="searchText"  />
 						
-							<input class="search" type="submit" value="Search" />
-							<input type="button" value="write" onclick="goUrl('boardWriteForm.jsp');"  />
+							<input class="search" type="submit" value="검색" />
+							
 						
 			</form>
 			
 			<%
+			String[] frndList=null;
 			//친구목록을 반환해서 친구별로 블록 생성
-			String[] frndList = userdb.getFrndList(userid);
-			
+			if(searchType==null || searchType.equals("")){
+				frndList = userdb.getFrndList(userid);
+			} else if(searchType.equals("ALL")){
+				frndList = userdb.getFindList_all(searchText);
+			} else if(searchType.equals("userid")){
+				frndList = userdb.getFindList_userid(searchText);
+			} else if(searchType.equals("username")){
+				frndList = userdb.getFindList_username(searchText);
+			}
+				if(frndList.length>0){
 					for(int i=0; i<frndList.length; i++) {
 			%>
 			<%UserEntity userfrnd = userdb.getUserEntity(frndList[i]); %>
@@ -96,6 +118,7 @@
 			</div>
 			<%
 			} 
+		}
 			
 			%>
 			

@@ -222,6 +222,7 @@ public class UserDBCP {
 			for(int i=0; rs.next(); i++) {
 				frndList[i] = rs.getString("FRIENDID");
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return frndList;
@@ -230,6 +231,103 @@ public class UserDBCP {
 		}
 		return frndList;
 	}
+	
+	//메인 페이지에서 검색 블럭 수를 결정하기위해 검색목록을 불러오는 메소드 전체검색
+		public String[] getFindList_all(String search) {
+			connect();
+			String userid = search;
+			String username = search;
+			
+			String[] searchList = null;
+			int frndNum = 0;
+			String sql = "select USERID from user_info where USERID = ? or USERNAME = ?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				pstmt.setString(2, username);
+				ResultSet rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					frndNum++;
+				}
+				rs.beforeFirst();
+				searchList = new String[frndNum];
+				for(int i=0; rs.next(); i++) {
+					searchList[i] = rs.getString("USERID");
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return searchList;
+			} finally {
+				disconnect();
+			}
+			return searchList;
+		}
+		
+		//메인 페이지에서 검색 블럭 수를 결정하기위해 검색목록을 불러오는 메소드 아이디 검색
+				public String[] getFindList_userid(String userid) {
+					connect();
+					
+					String[] searchList = null;
+					int frndNum = 0;
+					String sql = "select USERID from user_info where USERID = ?";
+					
+					try {
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, userid);
+						ResultSet rs = pstmt.executeQuery();
+						
+						while(rs.next()) {
+							frndNum++;
+						}
+						rs.beforeFirst();
+						searchList = new String[frndNum];
+						for(int i=0; rs.next(); i++) {
+							searchList[i] = rs.getString("USERID");
+						}
+						rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return searchList;
+					} finally {
+						disconnect();
+					}
+					return searchList;
+				}
+				
+				//메인 페이지에서 검색 블럭 수를 결정하기위해 검색목록을 불러오는 메소드 이름 검색
+				public String[] getFindList_username(String username) {
+					connect();
+					
+					String[] searchList = null;
+					int frndNum = 0;
+					String sql = "select USERID from user_info where USERNAME = ?";
+					
+					try {
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, username);
+						ResultSet rs = pstmt.executeQuery();
+						
+						while(rs.next()) {
+							frndNum++;
+						}
+						rs.beforeFirst();
+						searchList = new String[frndNum];
+						for(int i=0; rs.next(); i++) {
+							searchList[i] = rs.getString("USERID");
+						}
+						rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return searchList;
+					} finally {
+						disconnect();
+					}
+					return searchList;
+				}
+				
 	
 	
 	//친구목록 불러오기
@@ -413,7 +511,7 @@ public class UserDBCP {
 					disconnect();
 				}
 		}
-		// 매니저로~
+		// 매니저 정보 체크
 		public String getManager(String userid){
 			connect();
 			
@@ -515,6 +613,31 @@ public class UserDBCP {
 			 return check;
 		}
 		
+		// 회원 중복체크 
+		public int sameid_check(String userid) {
+				connect();
+					 
+				String SQL = "select count(*) as count from user_info where userid='" + userid + "'";
+				
+				
+				int check_count=0;
+				 try {
+						pstmt = con.prepareStatement(SQL);
+						pstmt.setString(1, userid);
+						ResultSet rs = pstmt.executeQuery();
+						rs.next();
+						
+						check_count = rs.getInt("count");
+							
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} 
+					finally {
+						disconnect();
+					}
+				 return check_count;
+			}
+		
 		// 배경 업데이트 .
 		public void updateBackground(String userid, String imgSrc) {
 			connect();
@@ -536,55 +659,53 @@ public class UserDBCP {
 		}
 		
 		// 배경 체크
-				public boolean checkBackground(String userid) {
-					connect();
-					 boolean check =false;
-					 String SQL = "select temp from user_info where userid=?";
-					 try {
-							pstmt = con.prepareStatement(SQL);
-							pstmt.setString(1, userid);
-							ResultSet rs = pstmt.executeQuery();
+			public boolean checkBackground(String userid) {
+				connect();
+				 boolean check =false;
+				 String SQL = "select temp from user_info where userid=?";
+				 try {
+					pstmt = con.prepareStatement(SQL);
+					pstmt.setString(1, userid);
+					ResultSet rs = pstmt.executeQuery();
+						
+					rs.next();
+						
+					if(rs.getString("temp")!=null || !rs.getString("temp").equals("")){
+						check = true;
+					}
 							
-							rs.next();
-							
-							if(rs.getString("temp")!=null || !rs.getString("temp").equals("")){
-								check = true;
-							}
-							
-							rs.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						} 
-						finally {
-							disconnect();
-						}
-					 return check;
+					rs.close();
+			} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				finally {
+					disconnect();
 				}
+				 return check;
+			}
 				
-				public String getBackground(String userid) {
-					String str="";
-					connect();
-					 String SQL = "select temp from user_info where userid=?";
-					 try {
-							pstmt = con.prepareStatement(SQL);
-							pstmt.setString(1, userid);
-							ResultSet rs = pstmt.executeQuery();
+			public String getBackground(String userid) {
+				String str="";
+				connect();
+				 String SQL = "select temp from user_info where userid=?";
+				 try {
+						pstmt = con.prepareStatement(SQL);
+						pstmt.setString(1, userid);
+						ResultSet rs = pstmt.executeQuery();
+						
+						rs.next();
+						
+						str = rs.getString("temp");
+						
+						rs.close();
 							
-							rs.next();
-							
-							str = rs.getString("temp");
-							
-							rs.close();
-								
-						} catch (SQLException e) {
-							e.printStackTrace();
-						} 
-						finally {
-							disconnect();
-						}
-					 return str;
-				}
-				
-				
-		
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} 
+					finally {
+						disconnect();
+					}
+				 return str;
+			}
+					
 }

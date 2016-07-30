@@ -213,7 +213,7 @@ function check(){
 	</form>
 	<form name=searchform action="boardList.jsp" method=post>
 		<select name="field">
-			<option value="username">아름</option>
+			<option value="username">이름</option>
 			<option value="userid">아이디</option>
 		</select>
 		<input type="hidden" name="up" value="3">

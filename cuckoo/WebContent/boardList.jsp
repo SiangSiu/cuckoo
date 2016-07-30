@@ -242,6 +242,17 @@
 		value = request.getParameter("value");
 	}
 	
+	String searchType="";
+	String searchText="";
+	
+	if(request.getParameter("searchType")!=null){
+		searchType = request.getParameter("searchType");
+	}
+	if(request.getParameter("seachText")!=null){
+		searchText = request.getParameter("seachText");
+	}
+	
+	
 	//접속 user info 확보
 	UserEntity userInfo = userdb.getUserEntity(userid);
 	
@@ -287,6 +298,8 @@
     		<div class="tab_item">
     			<jsp:include page="newsFeed.jsp" flush="false">
     				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
+    				<jsp:param name="seachType" value="<%=searchType %>"/>
+    				<jsp:param name="seachText" value="<%=searchText %>"/>
     			</jsp:include>
     		</div>
     		<div  class="tab_item" >
