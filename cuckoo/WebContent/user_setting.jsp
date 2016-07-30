@@ -22,6 +22,11 @@ function updatecheck() {
 		document.userform.nickname.focus();
 		return;
 	}
+	if ( document.userform.email.value=="" ) {
+		alert("이메일을 입력해 주세요.");
+		document.userform.password.focus();
+		return;
+	}
 	if ( document.userform.password.value=="" ) {
 		alert("암호를 입력해 주세요.");
 		document.userform.password.focus();
@@ -65,17 +70,26 @@ function updatecheck() {
 	<tr> <td colspan=2>
 		<table>
 		    <tr>
-		     <td width=50>닉네임 : </td>
-		     <td width=100>
-				<input type=text name=nickname value="<%=nickname %>" size=30 maxlength=20><%=user.getNickname() %></td>
-		     <td width=50>전자메일 :</td>
-		     <td width=100>
-				<input type=text name=email size=30 value="<%=email %>" maxlength=30><%=user.getEmail() %></td>
-		    </tr>	
-			<tr >
-		     <td width=50>비밀번호: </td>
+		     <td>닉네임 : </td>
 		     <td colspan=3>
-				<input type=text name=password size=80 value="<%=password %>" maxlength=100></td>
+				<input type=text name=nickname value="<%=user.getNickname() %>" size=30 maxlength=30></td>
+		     
+		    </tr>
+		    <tr>
+		    	<td>&nbsp;</td>
+		    </tr>
+		    <tr>
+		    <td>이메일 :</td>
+		     <td colspan=3>
+				<input type=text name=email size=30 value="<%=user.getEmail() %>" maxlength=30></td>
+		    </tr>	
+		    <tr>
+		    	<td>&nbsp;</td>
+		    </tr>
+			<tr >
+		     <td width=100>비밀번호: </td>
+		     <td colspan=3>
+				<input type=text name=password size=30 value="<%=password %>" maxlength=30></td>
 			</tr>
 		</table>
 	</td> </tr>

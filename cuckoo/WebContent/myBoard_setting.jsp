@@ -44,6 +44,8 @@
 	</div>
 	<%}
 	%>
+	<div style="clear: left;">
+	</div>
 	
 	
 
