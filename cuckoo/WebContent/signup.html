@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- 헤더 -->
+<style>
+#main_header {
+	
+}
+
+#login_btn {
+	
+}
+
+#main_title {
+	
+}
+</style>
+
+<script>
+	function MM_openBrWindow(theURL, winName, features) {
+		form = document.join;
+		if (winName == "userid_check") {
+			if (!checkValue(form.userid, '아이디', 5, 16)) {
+				return;
+			}
+			theURL = theURL + "?userid=" + form.userid.value;
+			
+		}
+		window.open(theURL, winName, features);
+	}
+	
+	function checkValue(target,cmt,lmin,lmax){
+		var Alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		var Digit = '1234657890';
+		var astr = Alpha+Digit;
+		var i=0;
+		var tValue = target.value;
+		if(tValue.length < lmin || tValue.length > lmax){
+			if(lmin==lmax) alert(cmt+'는' + lmin + 'byte이어야 합니다.');
+			else alert(cmt+'는' + lmin + '~' + lmax + 'Byte이내로 입력하셔야 합니다.');
+			target.focus();
+			return false;
+		}
+		if(astr.length>1){
+			for(i=0 ; i<tValue.length;i++){
+				if(astr.indexOf(tValue.substring(i,i+1))<0){
+					alert(cmt+'에 허용할 수 없는 문자가 입력 되었습니다.');
+					target.focus();
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	function doSubmit() {
+		form = document.join;
+		if(!form.userid.value){
+			alert('아이디를 입력하지 않았습니다.');
+		    form.userid.focus();
+		  	return;
+		}
+		if(!checkValue(form.userid, '아이디', 5, 16)){
+			return;
+		}
+		 
+		if(form.password.value != form.password2.value){
+			alert('비밀번호가 일치하지 않았습니다.');
+		  	form.password.value = "";
+		  	form.password2.value = "";
+		  	form.password.focus();
+		  	return;
+		}
+		if(form.userid.value == form.password.value){
+		 	alert("아이디와 비밀번호를 서로 다르게 입력하세요!");
+		  	form.password.value = "";
+		  	form.password2.value = "";
+		  	form.password.focus();
+		  	return;
+	 	}
+		if (!checkValue(form.password,'비밀번호',4,12)){
+		  	return;
+	 	}
+		 
+		if(!form.email.value){
+			alert('Email을 입력하지 않았습니다.');
+		  	form.email.focus();
+		  	return;
+		}
+		if(form.email.value.indexOf("@") < 0){
+		  	alert('Email주소 형식이 틀립니다.');
+		  	form.email.focus();
+		  	return;
+		}
+		if(form.email.value.indexOf(".") < 0){
+		  	alert('Email 도메인 주소가 틀립니다.');
+		  	form.email.focus();
+		  	return;
+		}		 
+		form.submit();
+	}
+</script>
+
+</head>
+
+<body>
+	<div>
+		<header>
+			<div id="main_header">
+				<span id="main_title">Cuckoo</span> <span id="login_btn"
+					align="right"><a href="main.html">Login</a> </span>
+			</div>
+
+		</header>
+		<nav>
+
+			<a href="/">Home</a> <a href="/contact">Contact</a>
+
+		</nav>
+
+		<div>
+			<form name=join method="post" action="insert.jsp">
+				<span>아이디</span> <input type="text" name="userid" size="30" required>
+				<input type="button" value="ID중복 확인"
+					onClick="MM_openBrWindow('userid_check.jsp','userid_check','width=330, height=200')"><br>
+				비밀번호<input type="password" name="password" required><br>
+				비밀번호<input type="password" name="password_1" required><br>
+				이름<input type="text" name="username" required><br> 닉네임<input
+					type="text" name="nickname" required><br> email<input
+					type="email" name="email" required><br> 생년월일<input
+					type="date" name="birthday"><br> 성별 : 남자 <input
+					type="radio" name="sex" value="man"> 여자 <input type="radio"
+					name="sex" value="woman"><br> <input type="submit"
+					value="회원 가입"> <input type="reset" value="다시 작성">
+			</form>
+		</div>
+
+		<footer>
+			<p>&copy; Copyright by Cuckoo</p>
+		</footer>
+	</div>
+</body>
+</html>
