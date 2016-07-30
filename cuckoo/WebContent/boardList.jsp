@@ -47,6 +47,7 @@
             background-image:url('logo.jpg');
             background-size: 100% 100%;
             background-repeat: no-repeat;
+            cursor:pointer;
         }
         #title > h2 { color: white; }
     </style>
@@ -248,7 +249,7 @@
 
 
     <header id="main_header">
-        <div id="title">
+        <div id="title" onclick="location.href='boardList.jsp'">
             
             <h2><%=userInfo.getNickname() %></h2>
         </div>
