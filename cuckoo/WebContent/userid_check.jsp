@@ -85,9 +85,10 @@
 <body>
 
 	<form name="id_check" method=post action=userid_check.jsp>
+	<input type="hidden" name="check_count" value="<%=check_count%>">
 		<div>
 			원하는 아이디를 입력 하세요 <input type="text" name="userid" value="<%=userid%>"
-				onFocus="this.value=" maxlength=16 size=16> <input
+				onFocus="this.value=''" maxlength=16 size=16> <input
 				type="button" value="중복확인" onClick="doCheck()">
 		</div>
 		<div>
