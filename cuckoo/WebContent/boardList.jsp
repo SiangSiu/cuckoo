@@ -238,6 +238,9 @@
             
             <h2><%=userInfo.getNickname() %></h2>
         </div>
+        <div align=right>
+        	<input type="button" value="로그아웃" >
+        </div>
         
     </header>
     
@@ -276,6 +279,9 @@
     		</div>
     		<div class="tab_item">
     			<jsp:include page="myBoard_setting.jsp" flush="false">
+    				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
+    			</jsp:include>
+    			<jsp:include page="user_setting.jsp" flush="false">
     				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
     			</jsp:include>
     			
