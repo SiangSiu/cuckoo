@@ -9,10 +9,10 @@
 	
 	String background="";
 	
-	
 
-	UserEntity userInfo = userdb.getUserEntity(userid);
 	
+	String frnd = request.getParameter("frndid");
+	UserEntity userInfo = userdb.getUserEntity(frnd);
 	
 	if(userdb.checkBackground(userInfo.getUserid())){
 		background = userdb.getBackground(userInfo.getUserid());
@@ -33,15 +33,20 @@
         li { list-style: none; }
         a { text-decoration: none; }
         img { border: 0; }
+        
+/* 중앙 정렬*/
+	div {  padding: 5px; margin: 0 auto; position: relative; background-color: #f0fff0; }
+	#good { display: none; }
+	#bad { display: none; }
+	#close {position: absolute;		right: 0;	top: 0;}
 
 
-
-	#profilebox { float: left; width: 700px; background-color:rgba(255, 255, 255, 0.7); }
+	#profilebox { float: left; width: 700px; background-color:rgba(255, 255, 255, 20); }
 	td#profileImg {width:40%;}
 	td#profileImg > img {width: 280px; height: 280px;}
 	td#profileName { font-size: 3em; width: 60%; }
-	td#gender { font-size: 4em; }
-	td#gender > img { width: 80px; height: 80px; vertical-align: top; }
+	td#gender {}
+	td#gender > img { width: 80px; height: 80px; }
 	td#email { font-size: 1.5em; }
 	td#friendbutton {}
 	td#friendbutton > font { font-size: 3em;}
@@ -68,7 +73,14 @@
 	td.td3 { width: 30%;}
 	td.td4 { width: 20%;}
 </style>
-
+<script type="text/javascript">
+function setFrinedRqst(){
+	if(confirm("같은 나무에 둥지를 트도록 요청하시겠습니까?")){
+		document.frndRqst.submit();
+	}
+	
+}
+</script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 <title>Insert title here</title>
@@ -92,32 +104,48 @@
 			<td id="gender"><%if(userInfo.getSex().equals("man")) { %><img alt="성별" src="gender_male.png" title="남자" >
 			<%} else { %><img alt="성별" src="gender_female.png" title="여자" ><%}%>
 			<!-- 생일 -->
-			<font><%=userInfo.getBirthday() %></font>
 			</td>
 		</tr>
 		<tr>
 		<!-- 친구요청 -->
-			<td id="friendbutton" colspan="2">
-				<font><%
-							String[] frndRqst = userdb.getFrndRqstTo(userid);
-							int rqstNum = frndRqst.length;
-							out.print(rqstNum);
-						%>명의 요청
-				</font>
-				<img alt="친구확인" src="checkFrndRequest.png" title="한 나무 요청 확인"  onclick="location.href='friendProcess.jsp?userid=<%=userid%>';">
+			<td id="friendbutton" colspan="2"><%if(!userInfo.getUserid().equals(userid)) {
+				boolean checkFrnd = false;
+				String[] frndList= userdb.getFrndList(userid);
+				for(int i=0; i<frndList.length; i++){
+					if(frndList[i].equals(userInfo.getUserid())){
+						checkFrnd = !checkFrnd;
+					}
+				} if(checkFrnd){
+					 %> <font>한 나무에 있습니다.</font><%	
+				} else {
+					boolean checkFrndRqst = false;
+					String[] frndRqst = userdb.getFrndRqst(userid);
+					for(int i=0; i<frndRqst.length; i++){
+						if(frndRqst[i].equals(userid)){
+							checkFrndRqst = !checkFrndRqst;
+						}
+					}
+					if(checkFrndRqst){
+						 %> <font>한 나무 요청을 했습니다.</font><%
+					}else{
+						%><img alt="친구추가" src="addFrnd.png" title="한 나무 요청"  onclick="setFriendRqst()"><%
+					}
+				
+				}
+			} 
+				%>
 				</td>
 			</tr>
 			
 	</table>
 </div>
-<jsp:include page="upload.jsp">
-<jsp:param value="<%=userid %>" name="userid"/>
-<jsp:param value="<%=userInfo.getNickname() %>" name="nickname"/>
-</jsp:include>
-
+<form name="frndRqst" action="friendProcess.jsp" method="post">
+<input type="hidden" name="userid" value="<%=userid%>">
+<input type="hidden" name="friendid" value="<%=frnd%>">
+</form>
 
 	<%
-
+		
 				ArrayList<NewsEntity> newsList = newsdb.getFriendNewsList(userInfo.getUserid());
 				int counter = newsList.size();
 				int row = 0;
@@ -144,17 +172,21 @@
 						</tr>
 						<tr>
 							<td class="imgContent" colspan="3"> <a href="boardView.jsp?num=<%=news.getNum()%>&userid=<%=userid%>"><%=news.getContent() %></a></td>
-							<td class="btn"><input type="button" value="수정" onclick="location.href='boardModifyForm.jsp?num=<%=news.getNum()%>&userid=<%=userid %>';" /></td>
 						</tr>
-						</table> 
-					</div>
-					<%
-						}
-					%>
-					
+					</table> 
+				</div>
 				<%
-				}
+					}
 				%>
+				
+			<%
+			}
+				
+		%>
+		<form action="boardList.jsp" method="post">
+		<input type="hidden" name="userid" value="<%=userid%>">
+		<input type="submit" value="닫기" id="close"/>
+		</form>
 
 </div>
 

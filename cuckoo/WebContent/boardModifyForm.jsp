@@ -52,7 +52,6 @@ function setProfile(){
 		document.detailview.submit();
 	}
 	
-	
 }
 </script>
 <body>

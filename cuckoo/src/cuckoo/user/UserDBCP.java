@@ -56,7 +56,7 @@ public class UserDBCP {
 	}
 	
 	
-	// ÀüÃ¼ È¸¿ø Á¤º¸¸¦ °¡Á®¿À±â.(¸Å°³º¯¼ö 4°³)
+	// ì „ì²´ íšŒì› ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê¸°.(ë§¤ê°œë³€ìˆ˜ 4ê°œ)
 			public ArrayList<UserEntity> getUserEntityList(String orderby, int desc, String field, String value) {
 				connect();
 				
@@ -73,10 +73,10 @@ public class UserDBCP {
 				 String SQL2 = "select * from User_Info where "+ field + " like ? order by "+orderby+ " "+str;
 				 try {
 					 if(value==null || value==""){
-						  //Å°¿öµå(value)°¡ ÀÖ³ª ¾ø³ª Ã¼Å©ÇÕ´Ï´Ù. ¾ø´Ù¸é
+						  //í‚¤ì›Œë“œ(value)ê°€ ìˆë‚˜ ì—†ë‚˜ ì²´í¬í•©ë‹ˆë‹¤. ì—†ë‹¤ë©´
 						  pstmt = con.prepareStatement(SQL1);
 						  }else{
-						  //Å°¿öµå°¡ ÀÖ´Ù¸é
+						  //í‚¤ì›Œë“œê°€ ìˆë‹¤ë©´
 						  pstmt = con.prepareStatement(SQL2);
 						  pstmt.setString(1, "%"+value+"%"); 
 						  }
@@ -116,7 +116,7 @@ public class UserDBCP {
 			}
 	
 	
-	// ÀüÃ¼ È¸¿ø Á¤º¸¸¦ °¡Á®¿À±â.   ( ¸Å°³º¯¼ö ¾ø´Â °Í )
+	// ì „ì²´ íšŒì› ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê¸°.   ( ë§¤ê°œë³€ìˆ˜ ì—†ëŠ” ê²ƒ )
 		public ArrayList<UserEntity> getUserEntityList() {
 			connect();
 			
@@ -162,7 +162,7 @@ public class UserDBCP {
 
 		
 	
-	//user Á¤º¸
+	//user ì •ë³´
 	public UserEntity getUserEntity(String userid) {
 		connect();
 		
@@ -202,7 +202,7 @@ public class UserDBCP {
 		 return user;
 	}
 	
-	//¸ŞÀÎ ÆäÀÌÁö¿¡¼­ Ä£±¸ ºí·° ¼ö¸¦ °áÁ¤ÇÏ±âÀ§ÇØ Ä£±¸¸ñ·ÏÀ» ºÒ·¯¿À´Â ¸Ş¼Òµå
+	//ë©”ì¸ í˜ì´ì§€ì—ì„œ ì¹œêµ¬ ë¸”ëŸ­ ìˆ˜ë¥¼ ê²°ì •í•˜ê¸°ìœ„í•´ ì¹œêµ¬ëª©ë¡ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì†Œë“œ
 	public String[] getFrndList(String userid) {
 		connect();
 		String[] frndList = null;
@@ -232,7 +232,7 @@ public class UserDBCP {
 		return frndList;
 	}
 	
-	//¸ŞÀÎ ÆäÀÌÁö¿¡¼­ °Ë»ö ºí·° ¼ö¸¦ °áÁ¤ÇÏ±âÀ§ÇØ °Ë»ö¸ñ·ÏÀ» ºÒ·¯¿À´Â ¸Ş¼Òµå ÀüÃ¼°Ë»ö
+	//ë©”ì¸ í˜ì´ì§€ì—ì„œ ê²€ìƒ‰ ë¸”ëŸ­ ìˆ˜ë¥¼ ê²°ì •í•˜ê¸°ìœ„í•´ ê²€ìƒ‰ëª©ë¡ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì†Œë“œ ì „ì²´ê²€ìƒ‰
 		public String[] getFindList_all(String search) {
 			connect();
 			String userid = search;
@@ -266,7 +266,7 @@ public class UserDBCP {
 			return searchList;
 		}
 		
-		//¸ŞÀÎ ÆäÀÌÁö¿¡¼­ °Ë»ö ºí·° ¼ö¸¦ °áÁ¤ÇÏ±âÀ§ÇØ °Ë»ö¸ñ·ÏÀ» ºÒ·¯¿À´Â ¸Ş¼Òµå ¾ÆÀÌµğ °Ë»ö
+		//ë©”ì¸ í˜ì´ì§€ì—ì„œ ê²€ìƒ‰ ë¸”ëŸ­ ìˆ˜ë¥¼ ê²°ì •í•˜ê¸°ìœ„í•´ ê²€ìƒ‰ëª©ë¡ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì†Œë“œ ì•„ì´ë”” ê²€ìƒ‰
 				public String[] getFindList_userid(String userid) {
 					connect();
 					
@@ -297,7 +297,7 @@ public class UserDBCP {
 					return searchList;
 				}
 				
-				//¸ŞÀÎ ÆäÀÌÁö¿¡¼­ °Ë»ö ºí·° ¼ö¸¦ °áÁ¤ÇÏ±âÀ§ÇØ °Ë»ö¸ñ·ÏÀ» ºÒ·¯¿À´Â ¸Ş¼Òµå ÀÌ¸§ °Ë»ö
+				//ë©”ì¸ í˜ì´ì§€ì—ì„œ ê²€ìƒ‰ ë¸”ëŸ­ ìˆ˜ë¥¼ ê²°ì •í•˜ê¸°ìœ„í•´ ê²€ìƒ‰ëª©ë¡ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì†Œë“œ ì´ë¦„ ê²€ìƒ‰
 				public String[] getFindList_username(String username) {
 					connect();
 					
@@ -329,8 +329,7 @@ public class UserDBCP {
 				}
 				
 	
-	
-	//Ä£±¸¸ñ·Ï ºÒ·¯¿À±â
+	//Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<UserEntity> getUser_FriendList(String userid) {
 		connect();
 		 ArrayList<UserEntity> list = new ArrayList<UserEntity>();
@@ -367,7 +366,65 @@ public class UserDBCP {
 		 return list;
 	}
 	
-	// Ä£±¸ Ãß°¡ ¸Ş¼Òµå
+	//ì¹œêµ¬ìš”ì²­ì—¬ë¶€ í™•ì¸ì„ ìœ„í•œ ìš”ì²­ëª©ë¡ ë°˜í™˜ ë©”ì†Œë“œ
+	public String[] getFrndRqst(String userid) {
+		connect();
+		String[] frndList = null;
+		int frndNum = 0;
+		String sql = "select FRIENDID from friend_request where USERID = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				frndNum++;
+			}
+			rs.beforeFirst();
+			frndList = new String[frndNum];
+			for(int i=0; rs.next(); i++) {
+				frndList[i] = rs.getString("FRIENDID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return frndList;
+		} finally {
+			disconnect();
+		}
+		return frndList;
+	}
+	
+	//ì¹œêµ¬ìš”ì²­ì—¬ë¶€ í™•ì¸ì„ ìœ„í•œ ìš”ì²­ëª©ë¡ ë°˜í™˜ ë©”ì†Œë“œ2
+		public String[] getFrndRqstTo(String userid) {
+			connect();
+			String[] frndList = null;
+			int frndNum = 0;
+			String sql = "select USERID from friend_request where FRIENDID = ?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				ResultSet rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					frndNum++;
+				}
+				rs.beforeFirst();
+				frndList = new String[frndNum];
+				for(int i=0; rs.next(); i++) {
+					frndList[i] = rs.getString("USERID");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return frndList;
+			} finally {
+				disconnect();
+			}
+			return frndList;
+		}
+	
+	// Ä£ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ş¼Òµï¿½
 	public void setUserFriendList(String userid, String friendid) {
 
 		connect();
@@ -389,12 +446,29 @@ public class UserDBCP {
 			finally {
 				disconnect();
 			}
-
-	
-
 	}
 	
-	// È¸¿ø µî·Ï ¸Ş¼Òµå
+	//ì¹œêµ¬ìš”ì²­ ë©”ì†Œë“œ
+	public void setFriendRequest(String userid, String friendid) {
+
+		connect();
+		 
+		 String SQL = "insert into table friend_request(USERID, friendid) ";
+		 SQL = SQL + "values('"+userid+"', '"+ friendid+"')";
+		 
+		 try {
+				pstmt = con.prepareStatement(SQL);
+				pstmt.executeQuery();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				disconnect();
+			}
+	}
+	
+	// íšŒì› ë“±ë¡ ë©”ì†Œë“œ
 	public void setUserEntityList(UserEntity user) {
 		connect();
 		 
@@ -437,7 +511,7 @@ public class UserDBCP {
 			}
 	}
 	
-	//ÇÁ·ÎÇÊ ¼öÁ¤
+	//í”„ë¡œí•„ ìˆ˜ì •
 	public void updateUserEntityProfile(String profilesrc, String userid) {
 		connect();
 		 
@@ -474,7 +548,7 @@ public class UserDBCP {
 			}
 	}
 	
-	// ¸Å´ÏÀú·Î~
+	// ë§¤ë‹ˆì €ë¡œ~
 	public void updateManager(String userid){
 		connect();
 		 
@@ -493,7 +567,7 @@ public class UserDBCP {
 			}
 	}
 	
-	// ¸Å´ÏÀú¿¡¼­ °­µî... ¤Ğ
+	// ë§¤ë‹ˆì €ì—ì„œ ê°•ë“±... ã… 
 		public void updateNoManager(String userid){
 			connect();
 			 
@@ -511,7 +585,7 @@ public class UserDBCP {
 					disconnect();
 				}
 		}
-		// ¸Å´ÏÀú Á¤º¸ Ã¼Å©
+		// ë§¤ë‹ˆì € ì •ë³´ ì²´í¬
 		public String getManager(String userid){
 			connect();
 			
@@ -539,7 +613,7 @@ public class UserDBCP {
 			 
 		}
 	
-	// È¸¿ø ¼öÁ¤
+	// íšŒì› ìˆ˜ì •
 	public boolean updateDB(UserEntity user) {
 		boolean success = false; 
 		connect();		
@@ -563,7 +637,7 @@ public class UserDBCP {
 	}
 	
 	
-	// È¸¿ø »èÁ¦
+	// íšŒì› ì‚­ì œ
 	public boolean deleteDB(String userid) {
 		boolean success = false; 
 		connect();		
@@ -571,6 +645,27 @@ public class UserDBCP {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, userid);
+			pstmt.executeUpdate();
+			success = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return success;
+		}
+		finally {
+			disconnect();
+		}
+		return success;
+	}
+	
+	//ì¹œêµ¬ìˆ˜ë½ì— ë”°ë¥¸ ìš”ì²­DBì‚­ì œ
+	public boolean deleteFriendRqstDB(String toid, String fromid) {
+		boolean success = false; 
+		connect();		
+		String sql ="delete from user_info where friendid=? and userid=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, toid);
+			pstmt.setString(2, fromid);
 			pstmt.executeUpdate();
 			success = true;
 		} catch (SQLException e) {
@@ -613,7 +708,7 @@ public class UserDBCP {
 			 return check;
 		}
 		
-		// È¸¿ø Áßº¹Ã¼Å© 
+		// íšŒì› ì¤‘ë³µì²´í¬ 
 		public int sameid_check(String userid) {
 				connect();
 					 
@@ -638,7 +733,7 @@ public class UserDBCP {
 				 return check_count;
 			}
 		
-		// ¹è°æ ¾÷µ¥ÀÌÆ® .
+		// ë°°ê²½ ì—…ë°ì´íŠ¸ .
 		public void updateBackground(String userid, String imgSrc) {
 			connect();
 			 
@@ -658,7 +753,7 @@ public class UserDBCP {
 				}
 		}
 		
-		// ¹è°æ Ã¼Å©
+		// ë°°ê²½ ì²´í¬
 			public boolean checkBackground(String userid) {
 				connect();
 				 boolean check =false;

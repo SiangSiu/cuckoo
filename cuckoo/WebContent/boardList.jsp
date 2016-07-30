@@ -37,7 +37,17 @@
             left: 20px; top: 30px;
         }
 
-
+		#logOut {
+			/*크기 및 글자위치 지정*/
+	    	width: 90px;	height: 25px;
+	    	line-height: 25px;
+	    	text-align: center;
+	    	
+	    	background-image: url("GreenRoundedButton.png"); 
+	    	background-size: 100%; background-repeat: no-repeat;
+	    	background-color: rgba(0,0,0,0);
+	    	
+		}
     </style>
     <!-- 타이틀 -->
     <style>
@@ -162,7 +172,33 @@
     .tab_item { overflow :hidden; }
     </style>
     <!-- 목록 -->
+    <style type="text/css">
+ 
+    section.aside > label {
+    	
+    	/*수평 정렬*/
+    	display: block;	float:left;
+    	
+    	background-image: url("GreenRoundedButton.png"); 
+    	background-size: 100%; background-repeat: no-repeat;
+    	/*크기 및 글자위치 지정*/
+    	width: 200px;	height: 50px;
+    	line-height: 50px;
+    	text-align: center; }
+
     
+    
+    #nav_frndRqst{margin:0; padding:0; list-style:none;display:block;} 
+	#nav_frndRqst li {display:block;}
+	#nav_frndRqst, #toggle_frndRqst {display:none;} 
+	#toggle_frndRqst:checked + #nav_frndRqst{display: block;}
+    
+    
+    #nav_friend{margin:0; padding:0; list-style:none;display:block;} 
+	#nav_friend li {display:block;}
+	#nav_friend, #toggle_friend {display:none;} 
+	#toggle_friend:checked + #nav_friend{display: block;}
+	</style>
     <!-- 푸터 -->
     <style>
        #main_footer {
@@ -245,11 +281,25 @@
 	String searchType="";
 	String searchText="";
 	
-	if(request.getParameter("searchType")!=null){
+		if(request.getParameter("searchType")!=null){
 		searchType = request.getParameter("searchType");
 	}
 	if(request.getParameter("seachText")!=null){
 		searchText = request.getParameter("seachText");
+	}
+	
+	
+	//Aside 목록을 위한 친구목록 반환
+	String[] frndList = userdb.getFrndList(userid);
+	
+	//친구요청 수락에 의한 디비메소드 처리
+	if(request.getParameter("rqstid")!=null){
+		String addFrndid = request.getParameter("rqstid");
+		String rqst = request.getParameter("rqst");
+		userdb.deleteFriendRqstDB(userid, addFrndid);
+		if(rqst.equals("accept")){
+			userdb.setUserFriendList(userid, addFrndid);
+		}
 	}
 	
 	
@@ -266,7 +316,7 @@
         </div>
         <div align=right>
         	<form name=logoutform action="logout.jsp" method="post">
-        		<input type="button" value="로그아웃" onclick="logout()">
+        		<input id = "logOut" type="button" value="로그아웃" onclick="logout()">
         	</form>
         </div>
         
@@ -330,6 +380,46 @@
     		</div>
     	</section>
     	
+    	<!-- 친구요청 목록 -->
+    	<div>
+    		<section class="aside">
+    		<label for="toggle_frndRqst">친구요청 목록</label>
+    		</section>
+			<input type="checkbox" id="toggle_frndRqst"/>
+			
+			<ul id="nav_frndRqst" >
+			<%
+					String[] frndRqst = userdb.getFrndRqstTo(userid);
+					for(int i=0; i<frndRqst.length; i++){
+			%>
+			<li><a href="boardList.jsp?userid=<%=userid%>&rqstid=<%=frndRqst[i]%>&rqst=accept"><%=userdb.getUserEntity(frndRqst[i]).getNickname() %></a></li>
+			<%} %>
+			</ul>
+		</div>
+    	
+    	
+    	
+    	
+    	<!-- 친구목록 -->
+    	<div>
+    		<section class="aside" >
+    		<label for="toggle_friend">친구목록</label>
+    		</section>
+			<input type="checkbox" id="toggle_friend"/>
+			
+			<ul id="nav_friend" >
+			<% for(int i=0; i<frndList.length; i++) {
+					//친구정보
+					UserEntity friendInfo = userdb.getUserEntity(frndList[i]);
+			%>
+			<li><a href="boardFriend.jsp?userid=<%=userid%>&frndid=<%=frndList[i]%>"><%=friendInfo.getNickname() %></a></li>
+			<%} %>
+			</ul>
+		</div>
+			
+			
+			
+			
     	<!-- Main Aside -->
     	<aside id="main_aside">
     		

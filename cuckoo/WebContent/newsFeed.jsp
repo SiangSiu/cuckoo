@@ -5,13 +5,27 @@
 <head>
 
 <style type="text/css">
-	.friend_block {	float: left; margin: 10px; width:690px; border-width:thin; border-style:solid; border-color:green;	}
+
+	input.search {
+		/*크기 및 글자위치 지정*/
+    	width: 90px;	height: 25px;
+    	line-height: 25px;
+    	text-align: center;
+    	
+    	background-image: url("GreenRoundedButton.png"); 
+    	background-size: 100%; background-repeat: no-repeat;
+    	background-color: rgba(0,0,0,0);
+	}
+
+
+
+	.friend_block {	float: left; margin: 10px; width:690px; background-color: rgba(10,100,10,0.15);	}
 	table { width: 100%; }
 	td { max-width: 0; white-space:nowrap; overflow:hidden; text-overflow: ellipsis; }
 	td.thumbnail {	width: 8%;		}
 	td.context { width: 92%;}
 	
-	div#newsFeedName {heigt: 40px;}
+	div#newsFeedName {heigt: 40px; width:685px;}
 	img.frndImg { height: 45px; vertical-align: top; }
 	b.frndName { font-size: 35px; }
 </style>
@@ -48,7 +62,7 @@ if(request.getParameter("searchText")!=null){
 								<option value="userid" >아이디</option>
 							</select>
 						
-							<input class="search" type="text" name="searchText"  />
+							<input  type="text" name="searchText"  />
 						
 							<input class="search" type="submit" value="검색" />
 							
