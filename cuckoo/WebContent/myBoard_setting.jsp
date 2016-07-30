@@ -11,7 +11,7 @@
 	
 
 
-	.mypage {	float: left; margin: 10px; width:216px; 	
+	.mypage {	float: left; margin: 10px; width:210px; 	
 	
 	background: rgba(249,249,249, 0.6);
 	}

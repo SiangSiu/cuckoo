@@ -714,7 +714,7 @@ public class UserDBCP {
 		public int sameid_check(String userid) {
 				connect();
 					 
-				String SQL = "select count(*) as count from user_info where userid='" + userid + "'";
+				String SQL = "select count(*) as count from user_info where userid=?";
 				
 				
 				int check_count=0;
@@ -725,6 +725,8 @@ public class UserDBCP {
 						rs.next();
 						
 						check_count = rs.getInt("count");
+						
+						rs.close();
 							
 					} catch (SQLException e) {
 						e.printStackTrace();
