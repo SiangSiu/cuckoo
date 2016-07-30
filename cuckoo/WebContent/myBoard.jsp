@@ -56,8 +56,6 @@
 		border-radius: 0 0 3px 3px;
 		width: 900px; height:1000px; 
 	}
-	.myFeed {	float: left; margin: 10px; width:216px; 
-	
 	
 	.myFeed {	float: left; margin: 10px; width:210px; 
 		background: rgba(249,249,249, 0.6);	}

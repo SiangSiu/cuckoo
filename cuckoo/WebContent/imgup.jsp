@@ -30,7 +30,7 @@
    // String root = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort()+request.getContextPath();
  
     // 파일 저장 경로(ex : /home/tour/web/ROOT/upload)
-    String savePath = "../Img";
+    String savePath = "Img";
  
     // 업로드 파일명
     String uploadFile = "";
