@@ -436,9 +436,9 @@ public class UserDBCP {
 		 SQL2 = SQL2 + "values('"+friendid+"', '"+ userid +"')";
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				pstmt = con.prepareStatement(SQL2);
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -453,12 +453,14 @@ public class UserDBCP {
 
 		connect();
 		 
-		 String SQL = "insert into table friend_request(USERID, friendid) ";
-		 SQL = SQL + "values('"+userid+"', '"+ friendid+"')";
+		 String SQL = "insert into friend_request(USERID, friendid) ";
+		 SQL = SQL + "values(?,?)";
 		 
 		 try {
 				pstmt = con.prepareStatement(SQL);
-				pstmt.executeQuery();
+				pstmt.setString(1, userid);
+				pstmt.setString(2, friendid);
+				pstmt.executeUpdate();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
