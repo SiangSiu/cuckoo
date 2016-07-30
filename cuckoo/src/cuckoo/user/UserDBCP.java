@@ -429,10 +429,10 @@ public class UserDBCP {
 
 		connect();
 		 
-		 String SQL = "insert into table friend_list(USERID, friendid) ";
+		 String SQL = "insert into friend_list(USERID, friendid) ";
 		 SQL = SQL + "values('"+userid+"', '"+ friendid+"')";
 		 
-		 String SQL2 = "insert into table friend_list(USERID, friendid) ";
+		 String SQL2 = "insert into friend_list(USERID, friendid) ";
 		 SQL2 = SQL2 + "values('"+friendid+"', '"+ userid +"')";
 		 try {
 				pstmt = con.prepareStatement(SQL);
