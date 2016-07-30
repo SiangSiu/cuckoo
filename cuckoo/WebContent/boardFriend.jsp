@@ -74,11 +74,10 @@
 	td.td4 { width: 20%;}
 </style>
 <script type="text/javascript">
-function setFrinedRqst(){
+function setFriendRqst(){
 	if(confirm("같은 나무에 둥지를 트도록 요청하시겠습니까?")){
 		document.frndRqst.submit();
 	}
-	
 }
 </script>
 

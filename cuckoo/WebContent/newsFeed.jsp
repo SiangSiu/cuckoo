@@ -88,8 +88,8 @@ if(request.getParameter("searchText")!=null){
 			<div class="friend_block" style="background-image: url('<%=userfrnd.getTemp()%>');">
 				<div id="newsFeedName">
 				
-					<img class="frndImg" id="fImg" alt="친구프사" src="<%=userfrnd.getProfilesrc()%>">
-					<b class="frndName"><%=userfrnd.getUsername() %></b>
+					<img class="frndImg" id="fImg" alt="친구프사" src="<%=userfrnd.getProfilesrc()%>" onclick="location.href='boardFriend.jsp?userid=<%=userid%>&frndid=<%=userfrnd.getUserid()%>';">
+					<b class="frndName" onclick="location.href='boardFriend.jsp?userid=<%=userid%>&frndid=<%=userfrnd.getUserid()%>';"><%=userfrnd.getUsername() %></b>
 					</div>
 				<%
 				ArrayList<NewsEntity> newsList = newsdb.getFriendNewsList(userfrnd.getUserid());
