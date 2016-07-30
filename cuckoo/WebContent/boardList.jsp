@@ -281,9 +281,7 @@
     			<jsp:include page="myBoard_setting.jsp" flush="false">
     				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
     			</jsp:include>
-    			<jsp:include page="user_setting.jsp" flush="false">
-    				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
-    			</jsp:include>
+    			
     			
     			<%if(manager.equalsIgnoreCase("Y")){ %>
 				<jsp:include page="user_admin.jsp" flush="false">
