@@ -663,7 +663,7 @@ public class UserDBCP {
 	public boolean deleteFriendRqstDB(String toid, String fromid) {
 		boolean success = false; 
 		connect();		
-		String sql ="delete from user_info where friendid=? and userid=?";
+		String sql ="delete from friend_request where friendid=? and userid=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, toid);
