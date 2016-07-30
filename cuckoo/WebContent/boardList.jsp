@@ -180,6 +180,20 @@
        
     </style>
     
+    <script language="javascript">
+    function logout() {
+    	
+    	ok = confirm("로그아웃 하시겠어요?");
+    	if (ok) {
+    		document.logoutform.submit();
+    	} else {
+    		return;
+    	}			
+    }
+
+    
+    </script>
+    
 
     
 </head>
@@ -239,7 +253,9 @@
             <h2><%=userInfo.getNickname() %></h2>
         </div>
         <div align=right>
-        	<input type="button" value="로그아웃" >
+        	<form name=logoutform action="logout.jsp" method="post">
+        		<input type="button" value="로그아웃" onclick="logout()">
+        	</form>
         </div>
         
     </header>
@@ -281,7 +297,9 @@
     			<jsp:include page="myBoard_setting.jsp" flush="false">
     				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
     			</jsp:include>
-    			
+    			<jsp:include page="user_setting.jsp" flush="false">
+    				<jsp:param name="userid" value="<%=userInfo.getUserid() %>"/>
+    			</jsp:include>
     			
     			<%if(manager.equalsIgnoreCase("Y")){ %>
 				<jsp:include page="user_admin.jsp" flush="false">
