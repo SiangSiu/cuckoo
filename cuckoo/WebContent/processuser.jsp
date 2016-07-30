@@ -32,7 +32,7 @@
 					userdb.updateDB(user);
 				
 				//기능 수행 후 다시 게시 목록 보기로 이동
-				response.sendRedirect("usertest.jsp");		
+				response.sendRedirect("boardList.jsp");		
 			} else if(menu.equals("delete")) {
 				String[] ids = request.getParameterValues("users");
 			
@@ -44,7 +44,14 @@
 				}
 				
 				response.sendRedirect("boardList.jsp?up=3");	
-			} else if(menu.equals("updatemanager")) {
+			} else if(menu.equals("deleteone")) {
+				String userid = (String)session.getAttribute("user_info_userid");
+				
+				userdb.deleteDB(userid);
+				session = request.getSession(false);
+				session.invalidate();
+				response.sendRedirect("index.html");	
+			}else if(menu.equals("updatemanager")) {
 				String[] ids = request.getParameterValues("users");
 			
 				

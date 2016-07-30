@@ -48,10 +48,10 @@
 			
 					for(int i=0; i<frndList.length; i++) {
 			%>
-			
-			<div class="friend_block">
+			<%UserEntity userfrnd = userdb.getUserEntity(frndList[i]); %>
+			<div class="friend_block" style="background-image: url('<%=userfrnd.getTemp()%>');">
 				<div id="newsFeedName">
-				<%UserEntity userfrnd = userdb.getUserEntity(frndList[i]); %>
+				
 					<img class="frndImg" id="fImg" alt="친구프사" src="<%=userfrnd.getProfilesrc()%>">
 					<b class="frndName"><%=userfrnd.getUsername() %></b>
 					</div>

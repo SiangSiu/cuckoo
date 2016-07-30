@@ -5,16 +5,10 @@
 
 
 <script languge="javascript">
-function deletecheck() {
-	if ( document.userform.password.value=="" ) {
-		alert("암호를 입력해 주세요.");
-		document.userform.password.focus();
-		return;
-	}		
-
-	ok = confirm("삭제하시겠습니까?");
+function deleteonecheck() {
+	ok = confirm("둥지를 떠나겠습니까??");
 	if (ok) {
-		document.userform.menu.value='delete';
+		document.userform.menu.value='deleteone';
 		document.userform.submit();
 	} else {
 		return;
@@ -50,25 +44,15 @@ function updatecheck() {
 		String email = ""; 
 		String password = "";
 		String headline = "수정";
-		String userid="";
-		
-		String id = request.getParameter("id");
-		String[] ids = request.getParameterValues("users");
-		
-		
-		for(int i=0; i<ids.length; i++){
-			//등록이 아닌 경우, 출력을 위해 선택한 게시의 각 필드 내용을 저장 
-			userid = id;
-			userdb.deleteDB(ids[i]);
-			
-		}
+		String userid=(String)session.getAttribute("user_info_userid");
 		
 		user = userdb.getUserEntity(userid);
 		
 	%>
 
 
-<h2>학생정보 수정 </h2>
+<h2 align="left">회원 정보 수정</h2>
+<hr><p>
 
 	
 	<form name="userform" action="processuser.jsp" method=post>
@@ -102,7 +86,7 @@ function updatecheck() {
 	<tr>
      <td colspan=2>
 		  		<input type=button value="수정완료" onClick="updatecheck()">
-		  		<input type=button value="삭제" onClick="deletecheck()">
+		  		<input type=button value="회원탈퇴" onClick="deleteonecheck()">
 		
       	<input type=reset value="취소"> 
 	 </td>

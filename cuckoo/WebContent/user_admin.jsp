@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>우선 테스트다 </title>
+
 
 <script language="javascript">
 function deletecheck() {
