@@ -19,7 +19,7 @@
 	function checkEnd(){
 		var form = document.id_check;
 		opener.join.userid.value= form.userid.value;
-		opener.join.userid_check.value=form.check_count.value;
+		opener.join.userid_check2.value=form.check_count.value;
 		self.close();
 	}
 	

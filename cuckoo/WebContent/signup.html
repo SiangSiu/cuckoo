@@ -64,7 +64,13 @@
 		if(!checkValue(form.userid, '아이디', 5, 16)){
 			return;
 		}
-		 
+		
+		if(form.userid_check2.value > 0){
+			alert('아이디 중복체크를 하세요.');
+		    form.userid.focus();
+		  	return;
+		}
+		
 		if(form.password.value != form.password2.value){
 			alert('비밀번호가 일치하지 않았습니다.');
 		  	form.password.value = "";
@@ -84,7 +90,7 @@
 	 	}
 		 
 		if(!form.email.value){
-			alert('Email을 입력하지 않았습니다.');
+			alert("Email을 입력하지 않았습니다.");
 		  	form.email.focus();
 		  	return;
 		}
@@ -121,18 +127,19 @@
 
 		<div>
 			<form name=join method="post" action="insert.jsp">
+				<input type="hidden" name="userid_check2" value=1>
 				<span>아이디</span> <input type="text" name="userid" size="30" required>
 				<input type="button" value="ID중복 확인"
 					onClick="MM_openBrWindow('userid_check.jsp','userid_check','width=330, height=200')"><br>
 				비밀번호<input type="password" name="password" required><br>
-				비밀번호<input type="password" name="password_1" required><br>
+				비밀번호<input type="password" name="password2" required><br>
 				이름<input type="text" name="username" required><br> 닉네임<input
 					type="text" name="nickname" required><br> email<input
 					type="email" name="email" required><br> 생년월일<input
 					type="date" name="birthday"><br> 성별 : 남자 <input
 					type="radio" name="sex" value="man"> 여자 <input type="radio"
-					name="sex" value="woman"><br> <input type="submit"
-					value="회원 가입"> <input type="reset" value="다시 작성">
+					name="sex" value="woman"><br> <input type="button"
+					value="회원 가입" onclick="doSubmit()"> <input type="reset" value="다시 작성">
 			</form>
 		</div>
 
