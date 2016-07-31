@@ -298,7 +298,16 @@
 		String rqst = request.getParameter("rqst");
 		userdb.deleteFriendRqstDB(userid, addFrndid);
 		if(rqst.equals("accept")){
-			userdb.setUserFriendList(userid, addFrndid);
+			boolean frndCheck = false;
+			for(String friend : frndList){
+				if(friend.equals(addFrndid)){
+					frndCheck = !frndCheck;
+					break;
+				}
+			}
+			if (!frndCheck){
+				userdb.setUserFriendList(userid, addFrndid);
+			}
 		}
 	}
 	

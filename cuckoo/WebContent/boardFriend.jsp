@@ -120,8 +120,9 @@ function setFriendRqst(){
 					boolean checkFrndRqst = false;
 					String[] frndRqst = userdb.getFrndRqst(userid);
 					for(int i=0; i<frndRqst.length; i++){
-						if(frndRqst[i].equals(userid)){
+						if(frndRqst[i].equals(userInfo.getUserid())){
 							checkFrndRqst = !checkFrndRqst;
+							break;
 						}
 					}
 					if(checkFrndRqst){
