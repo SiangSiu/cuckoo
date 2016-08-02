@@ -18,7 +18,16 @@
 	div { width: 960px;  padding: 5px; margin: 0 auto; position: relative; background-color: #f0fff0; }
 	#good { display: none; }
 	#bad { display: none; }
-	#close {position: absolute;		right: 0;	top: 0;}
+	#close {position: absolute;		right: 0;	top: 0;
+				/*크기 및 글자위치 지정*/
+		    	width: 90px;	height: 25px;
+		    	line-height: 25px;
+		    	text-align: center;
+		    	
+		    	background-image: url("GreenRoundedButton.png"); 
+		    	background-size: 100%; background-repeat: no-repeat;
+		    	background-color: rgba(0,0,0,0);
+	}
 	/* 좋싫 버튼 */
 	.imgBtn { height: 50px;		width: 50px; }
 	/*좋싫 숫자*/

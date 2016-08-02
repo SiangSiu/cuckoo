@@ -38,7 +38,16 @@
 	div {  padding: 5px; margin: 0 auto; position: relative; background-color: #f0fff0; }
 	#good { display: none; }
 	#bad { display: none; }
-	#close {position: absolute;		right: 0;	top: 0;}
+	#close {position: absolute;		right: 0;	top: 0;
+				/*크기 및 글자위치 지정*/
+		    	width: 90px;	height: 25px;
+		    	line-height: 25px;
+		    	text-align: center;
+		    	
+		    	background-image: url("GreenRoundedButton.png"); 
+		    	background-size: 100%; background-repeat: no-repeat;
+		    	background-color: rgba(0,0,0,0);
+	}
 
 
 	#profilebox { float: left; width: 700px; background-color:rgba(255, 255, 255, 20); }

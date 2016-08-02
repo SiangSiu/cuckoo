@@ -13,14 +13,23 @@
         
 /* 중앙 정렬*/
 	div {  padding: 5px; margin: 0 auto; position: relative; background-color: #f0fff0; width:1000px }
-	#close {position: absolute;		right: 0;	top: 0;}
+	#close {position: absolute;		right: 0;	top: 0;
+				/*크기 및 글자위치 지정*/
+		    	width: 90px;	height: 25px;
+		    	line-height: 25px;
+		    	text-align: center;
+		    	
+		    	background-image: url("GreenRoundedButton.png"); 
+		    	background-size: 100%; background-repeat: no-repeat;
+		    	background-color: rgba(0,0,0,0);
+	}
 	
-	table { width: 100%; }
+	table { width: 100%; background-color: rgba(100,200,100,0.5); }
 	td.profile { width: 30%; }
-	img.profile { width: 295px; height: 295px; }
-	td.text { width: 30%; font-size: 50px;}
-	img.gender { width: 140x; }
-	td.btn { width : 15%; }
+	img.profile { width: 250px; height: 250px; }
+	td.text { width: 30%; font-size: 50px; vertical-align: top;}
+	img.gender { vertical-align: top; }
+	td.btn { vertical-align: center; }
 	
 	font { font-size: 100px; }
 </style>
@@ -48,10 +57,10 @@
 		<tr>
 			<td class="profile" rowspan="2"><img class="profile" src="<%=whoRqst.getProfilesrc()%>"></td>
 			<td class="text"><%=whoRqst.getNickname() %>
-			<%if(whoRqst.getSex().equals("man")) { %><img class="gender" alt="성별" src="gender_male.png" title="남자" >
+			<%if(whoRqst.getSex().equals("man")) { %><img class="gender" alt="성별" src="gender_male.png" title="남자"  width="80px">
 			<%} else { %><img class="gender" alt="성별" src="gender_female.png" title="여자" ><%}%></td>
-			<td class="btn" rowspan="2"><img class="btn" alt="친구수락" src="checkFrndRequest.png" title="요청수락" onclick="location.href='boardList.jsp?userid=<%=userid%>&rqstid=<%=frndRqst[i]%>&up=1&rqst=accept';"></td>
-			<td class="btn" rowspan="2"><img class="btn" alt="친구거절" src="deny.png" title="요청거절" onclick="location.href='boardList.jsp?userid=<%=userid%>&rqstid=<%=frndRqst[i]%>&up=1&rqst=deny';"></td>
+			<td class="btn" rowspan="2"><img class="btn" alt="친구수락" src="checkFrndRequest.png" title="요청수락" width="150px" onclick="location.href='boardList.jsp?userid=<%=userid%>&rqstid=<%=frndRqst[i]%>&up=1&rqst=accept';"></td>
+			<td class="btn" rowspan="2"><img class="btn" alt="친구거절" src="deny.png" title="요청거절" width="150px" onclick="location.href='boardList.jsp?userid=<%=userid%>&rqstid=<%=frndRqst[i]%>&up=1&rqst=deny';"></td>
 		</tr>
 		<tr>
 			<td class="text"><%=whoRqst.getBirthday() %></td>

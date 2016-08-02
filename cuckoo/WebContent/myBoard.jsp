@@ -7,16 +7,13 @@
 <%
 	String userid = request.getParameter("userid");
 	
-	String background="";
+	
 	
 	
 
 	UserEntity userInfo = userdb.getUserEntity(userid);
 	
 	
-	if(userdb.checkBackground(userInfo.getUserid())){
-		background = userdb.getBackground(userInfo.getUserid());
-	}
 
 //String imgSrc = savePath+ newFileName;
 %>
@@ -36,7 +33,13 @@
 
 
 
-	#profilebox { float: left; width: 700px; background-color:rgba(255, 255, 255, 0.7); }
+	#profilebox { float: left; width: 710px; background-color:rgba(255, 255, 255, 0.7);
+						color: white;
+						text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+						-moz-text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+						-webkit-text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+						padding: 5px;
+	 }
 	td#profileImg {width:40%;}
 	td#profileImg > img {width: 280px; height: 280px;}
 	td#profileName { font-size: 3em; width: 60%; }
@@ -47,15 +50,7 @@
 	td#friendbutton > font { font-size: 3em;}
 	td#friendbutton > img { width: 50px; height: 50px; }
 	
-	#myback{
-		background-image: url("<%=background%>");
-		background-size:100%;
-		border: 1px solid gray;	border-top-color: white;
-		padding: 15px;
-		border-radius: 0 0 3px 3px;
-		width: 900px; height:1000px; 
-	}
-	
+
 	.myFeed {	float: left; margin: 10px; width:210px; 
 		background: rgba(249,249,249, 0.6);	}
 	table { width: 100%; }
@@ -67,6 +62,20 @@
 	td.td2 { width: 20%;}
 	td.td3 { width: 30%;}
 	td.td4 { width: 20%;}
+	
+	.Button {
+		/*수평 정렬*/
+    	display: block;	float:left;
+    	
+    	background-image: url("GreenSquareButton.png"); 
+    	background-size: 100%; background-repeat: no-repeat;
+    	/*크기 및 글자위치 지정*/
+    	width: 40px;	height: 22px;
+    	line-height: 24px;
+    	text-align: center;
+    	 } 
+    #modifyBtn {display: none;}
+	
 </style>
 
 
@@ -77,7 +86,7 @@
 
 <body>
 
-<div id="myback">
+
 <div id="profilebox">
 	<table>
 		<tr>
@@ -115,7 +124,7 @@
 <jsp:param value="<%=userInfo.getNickname() %>" name="nickname"/>
 </jsp:include>
 
-
+<div>
 	<%
 
 				ArrayList<NewsEntity> newsList = newsdb.getFriendNewsList(userInfo.getUserid());
@@ -144,7 +153,9 @@
 						</tr>
 						<tr>
 							<td class="imgContent" colspan="3"> <a href="boardView.jsp?num=<%=news.getNum()%>&userid=<%=userid%>"><%=news.getContent() %></a></td>
-							<td class="btn"><input type="button" value="수정" onclick="location.href='boardModifyForm.jsp?num=<%=news.getNum()%>&userid=<%=userid %>';" /></td>
+							<td class="btn"><input id="modifyBtn" type="button" value="수정" onclick="location.href='boardModifyForm.jsp?num=<%=news.getNum()%>&userid=<%=userid %>';" />
+							<label class="Button" for="modifyBtn">수정</label>
+							</td>
 						</tr>
 						</table> 
 					</div>

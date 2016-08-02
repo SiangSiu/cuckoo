@@ -3,7 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-
+<style>
+.button {
+		/*수평 정렬*/
+    	display: block;	float:left;
+    	
+    	background-image: url("GreenRoundedButton.png"); 
+    	background-size: 100%; background-repeat: no-repeat;
+    	/*크기 및 글자위치 지정*/
+    	width: 100px;	height: 25px;
+    	line-height: 25px;
+    	text-align: center;
+    	float: right;
+    	 } 
+.elementOfLabel {display: none;}
+</style>
 <script languge="javascript">
 function deleteonecheck() {
 	ok = confirm("둥지를 떠나겠습니까??");
@@ -99,10 +113,16 @@ function updatecheck() {
     </tr>
 	<tr>
      <td colspan=2>
-		  		<input type=button value="수정완료" onClick="updatecheck()">
-		  		<input type=button value="회원탈퇴" onClick="deleteonecheck()">
+		  		<input class="elementOfLabel" id="settingModify" type=button value="수정완료" onClick="updatecheck()">
+		  		<input class="elementOfLabel" id="quitMember" type=button value="회원탈퇴" onClick="deleteonecheck()">
 		
-      	<input type=reset value="취소"> 
+      	<input class="elementOfLabel" id="cancel" type=reset value="취소"> 
+      	
+      	
+		
+		<label class="button" for="cancel">취소</label>
+		<label class="button" for="quitMember">회원탈퇴</label>
+		<label class="button" for="settingModify">수정완료</label>
 	 </td>
     </tr> 
    </table>

@@ -19,15 +19,23 @@
 
 
 
-	.friend_block {	float: left; margin: 10px; width:690px; background-color: rgba(10,100,10,0.15);	}
-	table { width: 100%; }
+	.friend_block {	float: left; width:690px; background-color: rgba(10,100,10,0.15); padding: 10px;	
+							margin-top: 15px; 
+	}
+	table { width: 100%; 
+				background-color: rgba(255,255,255,0.5);
+	}
 	td { max-width: 0; white-space:nowrap; overflow:hidden; text-overflow: ellipsis; }
 	td.thumbnail {	width: 8%;		}
 	td.context { width: 92%;}
 	
 	div#newsFeedName {heigt: 40px; width:685px;}
 	img.frndImg { height: 45px; vertical-align: top; }
-	b.frndName { font-size: 35px; }
+	b.frndName { font-size: 35px; color: white;
+						text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+						-moz-text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+						-webkit-text-shadow: -1px 0 #0f0, 0 1px #0f0, 1px 0 #0f0, 0 -1px #0f0;
+	}
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
