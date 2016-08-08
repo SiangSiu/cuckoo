@@ -8,12 +8,15 @@
 	String userid = request.getParameter("userid");
 	
 	
-	
+	String background=""; 
 	
 
 	UserEntity userInfo = userdb.getUserEntity(userid);
 	
-	
+	if(userdb.checkBackground(userInfo.getUserid())){  
+			background = userdb.getBackground(userInfo.getUserid());  
+	}  
+
 
 //String imgSrc = savePath+ newFileName;
 %>
@@ -50,7 +53,15 @@
 	td#friendbutton > font { font-size: 3em;}
 	td#friendbutton > img { width: 50px; height: 50px; }
 	
-
+	#myback{
+		background-image: url("<%=background%>");
+		background-size:100%;
+		border: 1px solid gray;	border-top-color: white;
+		padding: 15px;
+		border-radius: 0 0 3px 3px;
+		width: 900px; height:1000px; 
+	}
+	
 	.myFeed {	float: left; margin: 10px; width:210px; 
 		background: rgba(249,249,249, 0.6);	}
 	table { width: 100%; }
@@ -86,7 +97,7 @@
 
 <body>
 
-
+<div id="myback">
 <div id="profilebox">
 	<table>
 		<tr>
@@ -167,6 +178,7 @@
 				}
 				%>
 
+</div>
 </div>
 
 </body>
